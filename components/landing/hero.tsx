@@ -20,8 +20,12 @@ export function Hero() {
           משפט · טכנולוגיה · נאמנות
         </span>
 
-        <h1 className="max-w-4xl text-3xl font-bold leading-tight tracking-tight text-primary-foreground text-balance md:text-5xl md:leading-[1.15]">
-          AXIS | אקסיס – המרכז לניהול תביעות.
+        <h1
+          className="max-w-4xl text-3xl font-bold leading-tight tracking-tight text-primary-foreground text-balance md:text-5xl md:leading-[1.15]"
+          dir="rtl"
+        >
+          אקסיס | <bdi dir="ltr">AXIS</bdi> – המרכז לניהול תביעות מול חברות הביטוח |{" "}
+          <bdi dir="ltr">Claims Management</bdi>
         </h1>
 
         <p className="max-w-2xl text-base leading-relaxed text-primary-foreground/70 text-pretty md:text-lg">

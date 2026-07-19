@@ -14,24 +14,28 @@ export function AxisLogo({ inverted = false }: AxisLogoProps) {
       >
         <span className="text-lg font-bold tracking-tight">A</span>
       </div>
-      <div className="flex flex-col leading-none">
+      <div className="flex flex-col items-start leading-none" dir="rtl">
         <span
           className={
             inverted
-              ? "text-base font-semibold tracking-wide text-primary-foreground"
-              : "text-base font-semibold tracking-wide text-foreground"
+              ? "inline-flex items-center gap-1.5 whitespace-nowrap text-base font-semibold tracking-wide text-primary-foreground"
+              : "inline-flex items-center gap-1.5 whitespace-nowrap text-base font-semibold tracking-wide text-foreground"
           }
         >
-          AXIS | אקסיס
+          <span>אקסיס</span>
+          <span aria-hidden="true">|</span>
+          <bdi dir="ltr">AXIS</bdi>
         </span>
         <span
           className={
             inverted
-              ? "text-[9px] font-medium tracking-wide text-primary-foreground/60"
-              : "text-[9px] font-medium tracking-wide text-muted-foreground"
+              ? "mt-1 inline-flex items-center gap-1 whitespace-nowrap text-[9px] font-medium tracking-wide text-primary-foreground/60"
+              : "mt-1 inline-flex items-center gap-1 whitespace-nowrap text-[9px] font-medium tracking-wide text-muted-foreground"
           }
         >
-          CLAIMS MANAGEMENT | ניהול תביעות
+          <span>המרכז לניהול תביעות מול חברות הביטוח</span>
+          <span aria-hidden="true">|</span>
+          <bdi dir="ltr">Claims Management</bdi>
         </span>
       </div>
     </div>
