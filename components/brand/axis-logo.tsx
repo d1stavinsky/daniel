@@ -14,7 +14,7 @@ export function AxisLogo({ inverted = false }: AxisLogoProps) {
       >
         <span className="text-lg font-bold tracking-tight">A</span>
       </div>
-      <div className="flex flex-col items-start leading-none" dir="rtl">
+      <div className="flex items-center leading-none" dir="rtl">
         <span
           className={
             inverted
@@ -25,17 +25,6 @@ export function AxisLogo({ inverted = false }: AxisLogoProps) {
           <span>אקסיס</span>
           <span aria-hidden="true">|</span>
           <bdi dir="ltr">AXIS</bdi>
-        </span>
-        <span
-          className={
-            inverted
-              ? "mt-1 inline-flex items-center gap-1 whitespace-nowrap text-[9px] font-medium tracking-wide text-primary-foreground/60"
-              : "mt-1 inline-flex items-center gap-1 whitespace-nowrap text-[9px] font-medium tracking-wide text-muted-foreground"
-          }
-        >
-          <span>המרכז לניהול תביעות מול חברות הביטוח</span>
-          <span aria-hidden="true">|</span>
-          <bdi dir="ltr">Claims Management</bdi>
         </span>
       </div>
     </div>
