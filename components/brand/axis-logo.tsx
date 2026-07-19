@@ -18,20 +18,20 @@ export function AxisLogo({ inverted = false }: AxisLogoProps) {
         <span
           className={
             inverted
-              ? "text-lg font-bold tracking-[0.2em] text-primary-foreground"
-              : "text-lg font-bold tracking-[0.2em] text-foreground"
+              ? "text-base font-semibold tracking-wide text-primary-foreground"
+              : "text-base font-semibold tracking-wide text-foreground"
           }
         >
-          AXIS
+          AXIS | אקסיס
         </span>
         <span
           className={
             inverted
-              ? "text-[10px] font-medium tracking-[0.15em] text-primary-foreground/60"
-              : "text-[10px] font-medium tracking-[0.15em] text-muted-foreground"
+              ? "text-[9px] font-medium tracking-wide text-primary-foreground/60"
+              : "text-[9px] font-medium tracking-wide text-muted-foreground"
           }
         >
-          CLAIMS MANAGEMENT
+          CLAIMS MANAGEMENT | ניהול תביעות
         </span>
       </div>
     </div>

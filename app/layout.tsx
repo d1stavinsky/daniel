@@ -10,8 +10,8 @@ const heebo = Heebo({
 })
 
 export const metadata: Metadata = {
-  title: 'AXIS · ניהול תביעות',
-  description: 'AXIS – מחברים משפט, טכנולוגיה ושקט נפשי לעסק שלך. ניהול תביעות פרימיום למוסכים וסוכנויות ביטוח.',
+  title: 'AXIS | אקסיס – Claims Management | ניהול תביעות',
+  description: 'פלטפורמה טכנולוגית לניהול תביעות, המשלבת מעטפת משפטית מקצועית ושקיפות מלאה למוסכים ולסוכנויות ביטוח.',
   generator: 'v0.app',
 }
 

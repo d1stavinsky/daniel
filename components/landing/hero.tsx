@@ -21,13 +21,12 @@ export function Hero() {
         </span>
 
         <h1 className="max-w-4xl text-3xl font-bold leading-tight tracking-tight text-primary-foreground text-balance md:text-5xl md:leading-[1.15]">
-          AXIS – מחברים משפט, טכנולוגיה ושקט נפשי לעסק שלך
+          AXIS | אקסיס – המרכז לניהול תביעות.
         </h1>
 
         <p className="max-w-2xl text-base leading-relaxed text-primary-foreground/70 text-pretty md:text-lg">
-          פלטפורמת ניהול התביעות המתקדמת עבור מוסכים וסוכנויות ביטוח. אנו משלבים
-          מעטפת משפטית מקצועית, מעקב דיגיטלי בזמן אמת וניהול נאמנות שקוף — כדי
-          שתקבלו את הפיצוי המקסימלי, בראש שקט.
+          פלטפורמה טכנולוגית לניהול תביעות, המשלבת מעטפת משפטית מקצועית ושקיפות
+          מלאה. הדרך החכמה לניהול מוסכים וסוכנויות ביטוח.
         </p>
 
         <div className="flex flex-col gap-3 sm:flex-row">

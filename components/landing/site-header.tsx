@@ -6,7 +6,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 md:px-8">
-        <Link href="/" aria-label="AXIS דף הבית">
+        <Link href="/" aria-label="AXIS | אקסיס – דף הבית">
           <AxisLogo />
         </Link>
 
