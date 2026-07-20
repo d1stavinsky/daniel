@@ -23,7 +23,7 @@ export function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="scroll-mt-24 bg-ensura-canvas py-20 md:py-28"
+      className="scroll-mt-[var(--ensura-header-offset)] bg-ensura-canvas py-16 sm:py-20 md:py-28"
       dir="rtl"
       aria-labelledby="how-it-works-heading"
     >
@@ -40,10 +40,10 @@ export function HowItWorks() {
           </h2>
         </div>
 
-        <ol className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
+        <ol className="mt-10 grid gap-10 sm:mt-14 md:grid-cols-3 md:gap-8 lg:gap-12">
           {steps.map((step) => (
-            <li key={step.number} className="text-center lg:text-right">
-              <div className="mx-auto flex size-14 items-center justify-center rounded-full border border-ensura-teal/25 lg:mx-0">
+            <li key={step.number} className="text-center md:text-right">
+              <div className="mx-auto flex size-14 items-center justify-center rounded-full border border-ensura-teal/25 md:mx-0">
                 <span className="font-manrope text-lg font-semibold tracking-[0.08em] text-ensura-teal">
                   {step.number}
                 </span>

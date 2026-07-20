@@ -171,14 +171,42 @@
   --ring: #20b6a6;
   --gold: #d8b36a;
   --gold-foreground: #14202b;
+  /* Sticky header + Dynamic Island / home indicator */
+  --ensura-header-offset: calc(4.25rem + env(safe-area-inset-top, 0px));
   background-color: var(--background);
   color: var(--foreground);
+  overflow-x: clip;
+  -webkit-tap-highlight-color: color-mix(in srgb, #20b6a6 18%, transparent);
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+.ensura-landing section[id] {
+  scroll-margin-top: var(--ensura-header-offset);
 }
 
 html:has(.ensura-landing) {
   scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html:has(.ensura-landing) {
+    scroll-behavior: auto;
+  }
+
+  .ensura-landing .motion-safe-enter {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 .font-manrope {
   font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Public form controls — ≥16px prevents iOS focus zoom */
+.ensura-field {
+  @apply h-12 w-full rounded-lg border border-ensura-navy/12 bg-ensura-canvas/70 px-3 text-base text-ensura-ink outline-none transition-colors placeholder:text-ensura-navy/35 focus:border-ensura-teal focus:ring-2 focus:ring-ensura-teal/20;
 }

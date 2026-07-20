@@ -13,7 +13,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="mt-1 inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-ensura-teal text-sm font-semibold text-white transition-colors hover:bg-ensura-teal/90 disabled:pointer-events-none disabled:opacity-50"
+      className="mt-1 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-ensura-teal text-base font-semibold text-white transition-colors hover:bg-ensura-teal/90 touch-manipulation disabled:pointer-events-none disabled:opacity-50 sm:text-sm"
     >
       {pending && <Loader2 className="size-4 animate-spin" aria-hidden="true" />}
       {pending ? "מתחבר..." : "כניסה"}
@@ -28,8 +28,8 @@ export function LoginForm() {
 
   return (
     <div className="w-full">
-      <div className="rounded-2xl border border-ensura-navy/10 bg-white p-8 shadow-[0_24px_80px_-36px_rgba(16,38,63,0.35)] sm:p-10">
-        <div className="mb-8 text-center">
+      <div className="rounded-2xl border border-ensura-navy/10 bg-white p-5 shadow-[0_24px_80px_-36px_rgba(16,38,63,0.35)] sm:p-8 md:p-10">
+        <div className="mb-6 text-center sm:mb-8">
           <h1 className="text-xl font-bold tracking-tight text-ensura-ink text-balance">
             כניסה לפורטל השותפים
           </h1>
@@ -40,7 +40,7 @@ export function LoginForm() {
 
         {resetSuccess && (
           <p
-            className="mb-5 rounded-lg border border-ensura-teal/25 bg-ensura-teal/10 px-3 py-2 text-sm text-ensura-ink"
+            className="mb-5 rounded-lg border border-ensura-teal/25 bg-ensura-teal/10 px-3 py-2.5 text-sm text-ensura-ink"
             role="status"
           >
             הסיסמה עודכנה בהצלחה. ניתן להתחבר עם הסיסמה החדשה.
@@ -61,11 +61,13 @@ export function LoginForm() {
                 id="email"
                 name="email"
                 type="email"
+                inputMode="email"
                 autoComplete="email"
                 required
                 dir="ltr"
+                enterKeyHint="next"
                 placeholder="name@garage.co.il"
-                className="h-11 w-full rounded-lg border border-ensura-navy/12 bg-ensura-canvas/70 pr-10 pl-3 text-left text-sm text-ensura-ink outline-none transition-colors placeholder:text-ensura-navy/35 focus:border-ensura-teal focus:ring-2 focus:ring-ensura-teal/20"
+                className="ensura-field pr-10 text-left"
               />
             </div>
           </div>
@@ -86,15 +88,16 @@ export function LoginForm() {
                 autoComplete="current-password"
                 required
                 dir="ltr"
+                enterKeyHint="go"
                 placeholder="••••••••"
-                className="h-11 w-full rounded-lg border border-ensura-navy/12 bg-ensura-canvas/70 pr-10 pl-3 text-left text-sm text-ensura-ink outline-none transition-colors placeholder:text-ensura-navy/35 focus:border-ensura-teal focus:ring-2 focus:ring-ensura-teal/20"
+                className="ensura-field pr-10 text-left"
               />
             </div>
           </div>
 
           {state.error && (
             <p
-              className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-700"
+              className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2.5 text-sm text-rose-700"
               role="alert"
             >
               {state.error}
@@ -105,14 +108,14 @@ export function LoginForm() {
 
           <Link
             href="/forgot-password"
-            className="mx-auto text-sm text-ensura-navy/55 underline-offset-4 transition-colors hover:text-ensura-teal hover:underline"
+            className="mx-auto inline-flex min-h-11 items-center text-sm text-ensura-navy/55 underline-offset-4 transition-colors hover:text-ensura-teal hover:underline touch-manipulation"
           >
             שכחתם סיסמה?
           </Link>
         </form>
       </div>
 
-      <p className="mt-6 text-center text-xs text-ensura-navy/45">
+      <p className="mt-6 px-2 text-center text-xs leading-relaxed text-ensura-navy/45">
         גישה מאובטחת · אינשורה | ENSURA · לשימוש שותפים מורשים בלבד
       </p>
     </div>

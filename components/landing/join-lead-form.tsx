@@ -22,7 +22,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="mt-1 inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-ensura-teal text-sm font-semibold text-white transition-colors hover:bg-ensura-teal/90 disabled:pointer-events-none disabled:opacity-50"
+      className="mt-1 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-ensura-teal text-base font-semibold text-white transition-colors hover:bg-ensura-teal/90 touch-manipulation disabled:pointer-events-none disabled:opacity-50 sm:text-sm"
     >
       {pending && <Loader2 className="size-4 animate-spin" aria-hidden="true" />}
       {pending ? "שולח..." : "שליחת פרטים"}
@@ -30,10 +30,7 @@ function SubmitButton() {
   )
 }
 
-const fieldClass =
-  "h-11 w-full rounded-lg border border-ensura-navy/12 bg-ensura-canvas/70 px-3 text-sm text-ensura-ink outline-none transition-colors placeholder:text-ensura-navy/35 focus:border-ensura-teal focus:ring-2 focus:ring-ensura-teal/20"
-
-const fieldWithIconClass = `${fieldClass} pr-10`
+const fieldWithIconClass = "ensura-field pr-10"
 
 export function JoinLeadForm({
   compact = false,
@@ -51,7 +48,7 @@ export function JoinLeadForm({
     return (
       <div
         className={cn(
-          "w-full rounded-2xl border border-ensura-navy/10 bg-white p-8 text-center shadow-[0_24px_80px_-36px_rgba(16,38,63,0.35)] sm:p-10",
+          "w-full rounded-2xl border border-ensura-navy/10 bg-white p-6 text-center shadow-[0_24px_80px_-36px_rgba(16,38,63,0.35)] sm:p-8 md:p-10",
           className,
         )}
       >
@@ -65,7 +62,7 @@ export function JoinLeadForm({
         {!compact && (
           <Link
             href="/"
-            className="mt-6 inline-flex h-11 items-center justify-center rounded-lg bg-ensura-navy px-5 text-sm font-medium text-white transition-colors hover:bg-ensura-navy/90"
+            className="mt-6 inline-flex min-h-12 items-center justify-center rounded-lg bg-ensura-navy px-5 text-base font-medium text-white transition-colors hover:bg-ensura-navy/90 touch-manipulation sm:text-sm"
           >
             חזרה לדף הבית
           </Link>
@@ -76,9 +73,9 @@ export function JoinLeadForm({
 
   return (
     <div className={cn("w-full", className)}>
-      <div className="rounded-2xl border border-ensura-navy/10 bg-white p-8 shadow-[0_24px_80px_-36px_rgba(16,38,63,0.35)] sm:p-10">
+      <div className="rounded-2xl border border-ensura-navy/10 bg-white p-5 shadow-[0_24px_80px_-36px_rgba(16,38,63,0.35)] sm:p-8 md:p-10">
         {!compact && (
-          <div className="mb-8 text-center">
+          <div className="mb-6 text-center sm:mb-8">
             <h1 className="text-xl font-bold tracking-tight text-ensura-ink text-balance">
               הצטרפות לאינשורה
             </h1>
@@ -88,7 +85,7 @@ export function JoinLeadForm({
           </div>
         )}
 
-        <form action={formAction} className="grid gap-5 sm:grid-cols-2">
+        <form action={formAction} className="grid gap-4 sm:grid-cols-2 sm:gap-5">
           <div className="flex flex-col gap-2">
             <label htmlFor="fullName" className="text-sm font-medium text-ensura-ink">
               שם מלא
@@ -104,6 +101,7 @@ export function JoinLeadForm({
                 required
                 maxLength={100}
                 autoComplete="name"
+                enterKeyHint="next"
                 className={fieldWithIconClass}
                 placeholder="ישראל ישראלי"
               />
@@ -125,6 +123,7 @@ export function JoinLeadForm({
                 required
                 maxLength={120}
                 autoComplete="organization"
+                enterKeyHint="next"
                 className={fieldWithIconClass}
                 placeholder="מוסך / סוכנות"
               />
@@ -144,9 +143,11 @@ export function JoinLeadForm({
                 id="phone"
                 name="phone"
                 type="tel"
+                inputMode="tel"
                 required
                 dir="ltr"
                 autoComplete="tel"
+                enterKeyHint="next"
                 className={`${fieldWithIconClass} text-left`}
                 placeholder="050-0000000"
               />
@@ -166,9 +167,11 @@ export function JoinLeadForm({
                 id="email"
                 name="email"
                 type="email"
+                inputMode="email"
                 required
                 dir="ltr"
                 autoComplete="email"
+                enterKeyHint="next"
                 className={`${fieldWithIconClass} text-left`}
                 placeholder="name@garage.co.il"
               />
@@ -189,7 +192,7 @@ export function JoinLeadForm({
                 name="partnerType"
                 required
                 defaultValue=""
-                className={fieldWithIconClass}
+                className={cn(fieldWithIconClass, "appearance-none")}
               >
                 <option value="" disabled>
                   בחירה…
@@ -207,7 +210,7 @@ export function JoinLeadForm({
             </label>
             <div className="relative">
               <MessageSquare
-                className="pointer-events-none absolute right-3 top-3 size-4 text-ensura-navy/40"
+                className="pointer-events-none absolute right-3 top-3.5 size-4 text-ensura-navy/40"
                 aria-hidden="true"
               />
               <textarea
@@ -215,7 +218,8 @@ export function JoinLeadForm({
                 name="message"
                 rows={4}
                 maxLength={1000}
-                className="w-full rounded-lg border border-ensura-navy/12 bg-ensura-canvas/70 py-2.5 pr-10 pl-3 text-sm text-ensura-ink outline-none transition-colors placeholder:text-ensura-navy/35 focus:border-ensura-teal focus:ring-2 focus:ring-ensura-teal/20"
+                enterKeyHint="send"
+                className="w-full rounded-lg border border-ensura-navy/12 bg-ensura-canvas/70 py-3 pr-10 pl-3 text-base text-ensura-ink outline-none transition-colors placeholder:text-ensura-navy/35 focus:border-ensura-teal focus:ring-2 focus:ring-ensura-teal/20"
                 placeholder="ספרו בקצרה על היקף הפעילות או הצורך שלכם"
               />
             </div>
@@ -223,7 +227,7 @@ export function JoinLeadForm({
 
           {state.error && (
             <p
-              className="sm:col-span-2 rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-700"
+              className="sm:col-span-2 rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2.5 text-sm text-rose-700"
               role="alert"
             >
               {state.error}
@@ -237,9 +241,12 @@ export function JoinLeadForm({
       </div>
 
       {!compact && (
-        <p className="mt-6 text-center text-xs text-ensura-navy/45">
+        <p className="mt-6 text-center text-sm text-ensura-navy/45">
           כבר שותפים?{" "}
-          <Link href="/login" className="font-medium text-ensura-teal hover:underline">
+          <Link
+            href="/login"
+            className="inline-flex min-h-11 items-center font-medium text-ensura-teal touch-manipulation hover:underline"
+          >
             כניסה לפורטל
           </Link>
         </p>

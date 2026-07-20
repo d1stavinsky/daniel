@@ -12,7 +12,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="mt-1 inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-ensura-teal text-sm font-semibold text-white transition-colors hover:bg-ensura-teal/90 disabled:pointer-events-none disabled:opacity-50"
+      className="mt-1 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-ensura-teal text-base font-semibold text-white transition-colors hover:bg-ensura-teal/90 touch-manipulation disabled:pointer-events-none disabled:opacity-50 sm:text-sm"
     >
       {pending && <Loader2 className="size-4 animate-spin" aria-hidden="true" />}
       {pending ? "שולח..." : "שליחת קישור לאיפוס"}
@@ -27,8 +27,8 @@ export function ForgotPasswordForm() {
 
   return (
     <div className="w-full">
-      <div className="rounded-2xl border border-ensura-navy/10 bg-white p-8 shadow-[0_24px_80px_-36px_rgba(16,38,63,0.35)] sm:p-10">
-        <div className="mb-8 text-center">
+      <div className="rounded-2xl border border-ensura-navy/10 bg-white p-5 shadow-[0_24px_80px_-36px_rgba(16,38,63,0.35)] sm:p-8 md:p-10">
+        <div className="mb-6 text-center sm:mb-8">
           <h1 className="text-xl font-bold tracking-tight text-ensura-ink text-balance">שחזור סיסמה</h1>
           <p className="mt-2 text-sm font-normal text-ensura-navy/60 text-pretty">
             הזינו את כתובת הדוא&quot;ל של החשבון ונשלח קישור מאובטח לבחירת סיסמה חדשה
@@ -45,7 +45,7 @@ export function ForgotPasswordForm() {
             </p>
             <Link
               href="/login"
-              className="inline-flex items-center justify-center gap-2 text-sm font-medium text-ensura-teal underline-offset-4 hover:underline"
+              className="inline-flex min-h-11 items-center justify-center gap-2 text-sm font-medium text-ensura-teal underline-offset-4 hover:underline touch-manipulation"
             >
               חזרה להתחברות
               <ArrowRight className="size-4" aria-hidden="true" />
@@ -66,18 +66,20 @@ export function ForgotPasswordForm() {
                   id="email"
                   name="email"
                   type="email"
+                  inputMode="email"
                   autoComplete="email"
                   required
                   dir="ltr"
+                  enterKeyHint="send"
                   placeholder="name@garage.co.il"
-                  className="h-11 w-full rounded-lg border border-ensura-navy/12 bg-ensura-canvas/70 pr-10 pl-3 text-left text-sm text-ensura-ink outline-none transition-colors placeholder:text-ensura-navy/35 focus:border-ensura-teal focus:ring-2 focus:ring-ensura-teal/20"
+                  className="ensura-field pr-10 text-left"
                 />
               </div>
             </div>
 
             {state.error && (
               <p
-                className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-700"
+                className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2.5 text-sm text-rose-700"
                 role="alert"
               >
                 {state.error}
@@ -88,7 +90,7 @@ export function ForgotPasswordForm() {
 
             <Link
               href="/login"
-              className="mx-auto text-sm text-ensura-navy/55 underline-offset-4 transition-colors hover:text-ensura-teal hover:underline"
+              className="mx-auto inline-flex min-h-11 items-center text-sm text-ensura-navy/55 underline-offset-4 transition-colors hover:text-ensura-teal hover:underline touch-manipulation"
             >
               חזרה להתחברות
             </Link>

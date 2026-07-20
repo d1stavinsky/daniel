@@ -12,7 +12,11 @@ export function EnsuraAuthShell({
 }) {
   return (
     <main
-      className="ensura-landing relative flex min-h-svh items-center justify-center overflow-hidden px-4 py-12"
+      className="ensura-landing relative flex min-h-svh items-start justify-center overflow-x-clip px-4 py-8 sm:items-center sm:py-12"
+      style={{
+        paddingTop: "max(2rem, env(safe-area-inset-top))",
+        paddingBottom: "max(2rem, env(safe-area-inset-bottom))",
+      }}
       dir="rtl"
     >
       <div
@@ -30,7 +34,11 @@ export function EnsuraAuthShell({
           wide ? "max-w-xl" : "max-w-md",
         )}
       >
-        <Link href="/" aria-label="חזרה לדף הבית" className="mb-8">
+        <Link
+          href="/"
+          aria-label="חזרה לדף הבית"
+          className="mb-6 inline-flex min-h-11 items-center touch-manipulation sm:mb-8"
+        >
           <EnsuraLogo />
         </Link>
         {children}

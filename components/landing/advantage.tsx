@@ -25,7 +25,7 @@ export function Advantage() {
   return (
     <section
       id="services"
-      className="scroll-mt-24 bg-ensura-canvas py-20 md:py-28"
+      className="scroll-mt-[var(--ensura-header-offset)] bg-ensura-canvas py-16 sm:py-20 md:py-28"
       dir="rtl"
     >
       <div className="mx-auto max-w-6xl px-4 md:px-8">
@@ -42,11 +42,11 @@ export function Advantage() {
           </p>
         </div>
 
-        <div className="mt-14 grid gap-5 md:grid-cols-3 lg:gap-6">
+        <div className="mt-10 grid gap-4 sm:mt-14 sm:gap-5 md:grid-cols-3 lg:gap-6">
           {pillars.map((pillar) => (
             <article
               key={pillar.title}
-              className="rounded-2xl border border-ensura-navy/8 bg-white p-8 shadow-[0_12px_40px_-28px_rgba(16,38,63,0.35)]"
+              className="rounded-2xl border border-ensura-navy/8 bg-white p-6 shadow-[0_12px_40px_-28px_rgba(16,38,63,0.35)] sm:p-8"
             >
               <div className="flex size-12 items-center justify-center rounded-xl bg-ensura-teal/10 text-ensura-teal">
                 <pillar.icon className="size-6" strokeWidth={1.75} />

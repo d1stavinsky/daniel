@@ -20,7 +20,7 @@ export function Audience() {
   return (
     <section
       id="audience"
-      className="scroll-mt-24 bg-white py-20 md:py-28"
+      className="scroll-mt-[var(--ensura-header-offset)] bg-white py-16 sm:py-20 md:py-28"
       dir="rtl"
       aria-labelledby="audience-heading"
     >
@@ -37,11 +37,11 @@ export function Audience() {
           </h2>
         </div>
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+        <div className="mt-10 grid gap-4 sm:mt-14 sm:gap-5 md:grid-cols-3 md:gap-6">
           {audiences.map((audience) => (
             <article
               key={audience.title}
-              className="rounded-2xl border border-ensura-navy/8 bg-white p-7 shadow-[0_12px_40px_-28px_rgba(16,38,63,0.35)] md:p-8"
+              className="rounded-2xl border border-ensura-navy/8 bg-white p-6 shadow-[0_12px_40px_-28px_rgba(16,38,63,0.35)] sm:p-7 md:p-8"
             >
               <div
                 className="mb-5 h-px w-10 bg-ensura-gold/70"

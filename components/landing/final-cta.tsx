@@ -5,7 +5,7 @@ export function FinalCta() {
   return (
     <section
       id="join"
-      className="relative overflow-hidden bg-ensura-canvas py-24 md:py-28"
+      className="relative overflow-hidden bg-ensura-canvas py-16 sm:py-20 md:py-28"
       dir="rtl"
       aria-labelledby="final-cta-heading"
     >
@@ -21,7 +21,7 @@ export function FinalCta() {
       <div className="relative mx-auto max-w-xl px-4 text-center md:px-8">
         <h2
           id="final-cta-heading"
-          className="text-2xl font-bold tracking-tight text-ensura-ink text-balance md:text-4xl md:leading-[1.2]"
+          className="text-[1.65rem] font-bold tracking-tight text-ensura-ink text-balance sm:text-2xl md:text-4xl md:leading-[1.2]"
         >
           מוכנים לנהל תביעות בצורה פשוטה יותר?
         </h2>
@@ -30,13 +30,16 @@ export function FinalCta() {
           השאירו פרטי קשר ונחזור אליכם לתיאום הצטרפות מסודרת לאינשורה.
         </p>
 
-        <div className="mt-10 text-start">
+        <div className="mt-8 text-start sm:mt-10">
           <JoinLeadForm compact />
         </div>
 
-        <p className="mt-6 text-center text-xs text-ensura-navy/45">
+        <p className="mt-6 text-center text-sm text-ensura-navy/45">
           כבר שותפים?{" "}
-          <Link href="/login" className="font-medium text-ensura-teal hover:underline">
+          <Link
+            href="/login"
+            className="inline-flex min-h-11 items-center font-medium text-ensura-teal touch-manipulation hover:underline"
+          >
             כניסה לפורטל
           </Link>
         </p>
