@@ -23,7 +23,7 @@ const pillars = [
 
 export function Advantage() {
   return (
-    <section id="advantage" className="bg-background py-20 md:py-28">
+    <section id="services" className="scroll-mt-24 bg-background py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-4 md:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-medium tracking-[0.15em] text-gold">
