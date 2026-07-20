@@ -16,18 +16,12 @@ function appBaseUrl(): string {
     (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "") ||
     process.env.V0_RUNTIME_URL ||
     "http://localhost:3000"
-  )
+  ).replace(/\/$/, "")
 }
 
 export const auth = betterAuth({
   database: pool,
-  baseURL:
-    process.env.BETTER_AUTH_URL ??
-    (process.env.VERCEL_PROJECT_PRODUCTION_URL
-      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-      : process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}`
-        : process.env.V0_RUNTIME_URL),
+  baseURL: appBaseUrl(),
   emailAndPassword: {
     enabled: true,
     autoSignIn: true,
@@ -88,12 +82,14 @@ export const auth = betterAuth({
     },
   },
   trustedOrigins: [
+    appBaseUrl(),
     ...(process.env.V0_RUNTIME_URL ? [process.env.V0_RUNTIME_URL] : []),
     ...(process.env.VERCEL_URL ? [`https://${process.env.VERCEL_URL}`] : []),
     ...(process.env.VERCEL_PROJECT_PRODUCTION_URL
       ? [`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`]
       : []),
-    ...(process.env.NEXT_PUBLIC_APP_URL ? [process.env.NEXT_PUBLIC_APP_URL] : []),
+    ...(process.env.NEXT_PUBLIC_APP_URL ? [process.env.NEXT_PUBLIC_APP_URL.replace(/\/$/, "")] : []),
+    ...(process.env.BETTER_AUTH_URL ? [process.env.BETTER_AUTH_URL.replace(/\/$/, "")] : []),
     ...(process.env.NODE_ENV === "development" ? ["http://localhost:3000"] : []),
   ],
   session: {

@@ -1,6 +1,5 @@
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
-import { Button } from "@/components/ui/button"
 
 export function FinalCta() {
   return (
@@ -24,14 +23,13 @@ export function FinalCta() {
         </p>
 
         <div className="mt-8 flex justify-center">
-          <Button
-            render={<Link href="/login" />}
-            size="lg"
-            className="h-11 gap-2 rounded-lg bg-ensura-teal px-6 text-sm font-semibold text-white hover:bg-ensura-teal/90"
+          <Link
+            href="/login"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-ensura-teal px-6 text-sm font-semibold text-white transition-colors hover:bg-ensura-teal/90"
           >
             הצטרפות לאינשורה
             <ArrowLeft className="size-4" />
-          </Button>
+          </Link>
         </div>
       </div>
     </section>

@@ -6,16 +6,22 @@ import { LoginForm } from "@/components/auth/login-form"
 export const dynamic = "force-dynamic"
 
 export const metadata = {
-  title: "כניסה · AXIS",
+  title: "כניסה · אינשורה | ENSURA",
 }
 
 export default async function LoginPage() {
-  const user = await getSessionUser()
-  if (user) redirect("/portal")
+  try {
+    const user = await getSessionUser()
+    if (user) redirect("/portal")
+  } catch (error) {
+    console.error(
+      "[login] session check failed:",
+      error instanceof Error ? error.message : String(error),
+    )
+  }
 
   return (
     <main className="relative flex min-h-svh items-center justify-center overflow-hidden bg-background px-4 py-12">
-      {/* subtle radial depth */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"

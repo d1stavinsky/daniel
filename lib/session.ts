@@ -19,31 +19,39 @@ export type SessionUser = {
  * Suspended partner orgs are treated as logged out so requireUser paths stay locked.
  */
 export async function getSessionUser(): Promise<SessionUser | null> {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session?.user) return null
-  const u = session.user as typeof session.user & {
-    role?: string
-    partnerId?: string | null
-    partnerRole?: string | null
-    mustResetPassword?: boolean
-  }
-  const role = normalizeRole(u.role)
-  const partnerId = u.partnerId ?? null
+  try {
+    const session = await auth.api.getSession({ headers: await headers() })
+    if (!session?.user) return null
+    const u = session.user as typeof session.user & {
+      role?: string
+      partnerId?: string | null
+      partnerRole?: string | null
+      mustResetPassword?: boolean
+    }
+    const role = normalizeRole(u.role)
+    const partnerId = u.partnerId ?? null
 
-  if (role === "partner") {
-    if (!partnerId) return null
-    const active = await isPartnerOrgActive(partnerId)
-    if (!active) return null
-  }
+    if (role === "partner") {
+      if (!partnerId) return null
+      const active = await isPartnerOrgActive(partnerId)
+      if (!active) return null
+    }
 
-  return {
-    id: u.id,
-    name: u.name,
-    email: u.email,
-    role,
-    partnerId,
-    partnerRole: u.partnerRole === "owner" ? "owner" : u.partnerRole === "member" ? "member" : null,
-    mustResetPassword: Boolean(u.mustResetPassword),
+    return {
+      id: u.id,
+      name: u.name,
+      email: u.email,
+      role,
+      partnerId,
+      partnerRole: u.partnerRole === "owner" ? "owner" : u.partnerRole === "member" ? "member" : null,
+      mustResetPassword: Boolean(u.mustResetPassword),
+    }
+  } catch (error) {
+    console.error(
+      "[session] getSessionUser failed:",
+      error instanceof Error ? error.message : String(error),
+    )
+    return null
   }
 }
 

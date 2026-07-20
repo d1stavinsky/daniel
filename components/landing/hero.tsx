@@ -1,6 +1,5 @@
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { HeroDashboardPreview } from "@/components/landing/hero-dashboard-preview"
 
 export function Hero() {
@@ -47,22 +46,19 @@ export function Hero() {
           </div>
 
           <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
-            <Button
-              render={<Link href="/login" />}
-              size="lg"
-              className="h-11 gap-2 rounded-lg bg-ensura-teal px-5 text-sm font-semibold text-white hover:bg-ensura-teal/90"
+            <Link
+              href="/login"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-ensura-teal px-5 text-sm font-semibold text-white transition-colors hover:bg-ensura-teal/90"
             >
               הצטרפות לאינשורה
               <ArrowLeft className="size-4" />
-            </Button>
-            <Button
-              render={<Link href="#how-it-works" />}
-              size="lg"
-              variant="outline"
-              className="h-11 rounded-lg border-ensura-navy/15 bg-white/70 px-5 text-sm font-medium text-ensura-ink hover:bg-white hover:text-ensura-ink"
+            </Link>
+            <a
+              href="#how-it-works"
+              className="inline-flex h-11 items-center justify-center rounded-lg border border-ensura-navy/15 bg-white/70 px-5 text-sm font-medium text-ensura-ink transition-colors hover:bg-white"
             >
               איך זה עובד
-            </Button>
+            </a>
           </div>
 
           <p className="border-t border-ensura-navy/10 pt-5 text-sm text-ensura-navy/55">

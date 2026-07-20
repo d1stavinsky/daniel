@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import { EnsuraLogo } from "@/components/brand/ensura-logo"
 
 const navLinks = [
@@ -29,12 +28,12 @@ export function SiteHeader() {
               {link.label}
             </a>
           ))}
-          <Button
-            render={<Link href="/login" />}
-            className="h-9 rounded-lg bg-ensura-navy px-3.5 text-sm font-medium text-white hover:bg-ensura-navy/90"
+          <Link
+            href="/login"
+            className="inline-flex h-9 items-center justify-center rounded-lg bg-ensura-navy px-3.5 text-sm font-medium text-white transition-colors hover:bg-ensura-navy/90"
           >
             כניסת שותפים
-          </Button>
+          </Link>
         </nav>
       </div>
     </header>
