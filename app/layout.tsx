@@ -1,23 +1,31 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Heebo } from 'next/font/google'
+import { Heebo, Manrope } from 'next/font/google'
 import './globals.css'
 
 const heebo = Heebo({
   subsets: ['hebrew', 'latin'],
   variable: '--font-heebo',
   display: 'swap',
+  weight: ['400', '500', '600', '700'],
+})
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-manrope',
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
 })
 
 export const metadata: Metadata = {
-  title: 'אקסיס | AXIS – המרכז לניהול תביעות מול חברות הביטוח',
-  description: 'פלטפורמה טכנולוגית לניהול תביעות, המשלבת מעטפת משפטית מקצועית ושקיפות מלאה למוסכים ולסוכנויות ביטוח.',
-  generator: 'v0.app',
+  title: 'אינשורה | ENSURA – ניהול תביעות רכב. פשוט יותר.',
+  description:
+    'אינשורה מנהלת עבור מוסכים וסוכנויות ביטוח את כל תהליך התביעה — עם מעטפת מקצועית, מעקב דיגיטלי וכל הגורמים במקום אחד.',
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'dark',
-  themeColor: '#22262e',
+  colorScheme: 'light dark',
+  themeColor: '#F4F7F8',
 }
 
 export default function RootLayout({
@@ -26,7 +34,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="he" dir="rtl" className={`${heebo.variable} bg-background`}>
+    <html
+      lang="he"
+      dir="rtl"
+      className={`${heebo.variable} ${manrope.variable} bg-background`}
+    >
       <body className="font-sans antialiased">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}

@@ -6,6 +6,11 @@
 
 @theme inline {
   --font-sans: var(--font-heebo), ui-sans-serif, system-ui, sans-serif;
+  --color-ensura-navy: #10263f;
+  --color-ensura-teal: #20b6a6;
+  --color-ensura-canvas: #f4f7f8;
+  --color-ensura-ink: #14202b;
+  --color-ensura-gold: #d8b36a;
   --color-gold: var(--gold);
   --color-gold-foreground: var(--gold-foreground);
   --color-legal: var(--legal);
@@ -144,4 +149,36 @@
       0 0 0 4px color-mix(in oklch, var(--trust) 16%, transparent),
       0 0 12px 1px color-mix(in oklch, var(--trust) 50%, transparent);
   }
+}
+
+/* ENSURA marketing surface — scoped so the admin shell stays dark. */
+.ensura-landing {
+  color-scheme: light;
+  --background: #f4f7f8;
+  --foreground: #14202b;
+  --card: #ffffff;
+  --card-foreground: #14202b;
+  --primary: #20b6a6;
+  --primary-foreground: #ffffff;
+  --secondary: #e8eef1;
+  --secondary-foreground: #14202b;
+  --muted: #e8eef1;
+  --muted-foreground: #5a6b78;
+  --accent: #d8b36a;
+  --accent-foreground: #14202b;
+  --border: color-mix(in srgb, #10263f 10%, transparent);
+  --input: color-mix(in srgb, #10263f 12%, transparent);
+  --ring: #20b6a6;
+  --gold: #d8b36a;
+  --gold-foreground: #14202b;
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+html:has(.ensura-landing) {
+  scroll-behavior: smooth;
+}
+
+.font-manrope {
+  font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
 }
