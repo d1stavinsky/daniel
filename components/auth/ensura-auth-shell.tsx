@@ -1,8 +1,15 @@
 import type { ReactNode } from "react"
 import Link from "next/link"
 import { EnsuraLogo } from "@/components/brand/ensura-logo"
+import { cn } from "@/lib/utils"
 
-export function EnsuraAuthShell({ children }: { children: ReactNode }) {
+export function EnsuraAuthShell({
+  children,
+  wide = false,
+}: {
+  children: ReactNode
+  wide?: boolean
+}) {
   return (
     <main
       className="ensura-landing relative flex min-h-svh items-center justify-center overflow-hidden px-4 py-12"
@@ -17,7 +24,12 @@ export function EnsuraAuthShell({ children }: { children: ReactNode }) {
         }}
       />
 
-      <div className="relative z-10 flex w-full max-w-md flex-col items-center">
+      <div
+        className={cn(
+          "relative z-10 flex w-full flex-col items-center",
+          wide ? "max-w-xl" : "max-w-md",
+        )}
+      >
         <Link href="/" aria-label="חזרה לדף הבית" className="mb-8">
           <EnsuraLogo />
         </Link>

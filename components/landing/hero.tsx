@@ -1,4 +1,3 @@
-import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { HeroDashboardPreview } from "@/components/landing/hero-dashboard-preview"
 
@@ -46,13 +45,13 @@ export function Hero() {
           </div>
 
           <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
-            <Link
-              href="/login"
+            <a
+              href="#join"
               className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-ensura-teal px-5 text-sm font-semibold text-white transition-colors hover:bg-ensura-teal/90"
             >
               הצטרפות לאינשורה
               <ArrowLeft className="size-4" />
-            </Link>
+            </a>
             <a
               href="#how-it-works"
               className="inline-flex h-11 items-center justify-center rounded-lg border border-ensura-navy/15 bg-white/70 px-5 text-sm font-medium text-ensura-ink transition-colors hover:bg-white"
