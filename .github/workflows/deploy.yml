@@ -59,7 +59,9 @@ jobs:
           script: |
             set -euo pipefail
             cd /root/axis-app
-            git pull --ff-only origin main
+            git fetch origin main
+            # Production server must match the repo; discard local compose/env drift.
+            git reset --hard origin/main
             touch .env.production
             chmod 600 .env.production
 
