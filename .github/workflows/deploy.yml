@@ -19,17 +19,43 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      - name: Deploy over SSH
-        uses: appleboy/ssh-action@v1.2.2
+      - name: Encode secrets for safe SSH transfer
+        id: secrets
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
+        run: |
+          set -euo pipefail
+          if [ -z "${DATABASE_URL:-}" ]; then
+            echo "DATABASE_URL GitHub secret is required" >&2
+            exit 1
+          fi
+          if [ -z "${BETTER_AUTH_SECRET:-}" ] || [ "${#BETTER_AUTH_SECRET}" -lt 32 ]; then
+            echo "BETTER_AUTH_SECRET GitHub secret must be at least 32 characters" >&2
+            exit 1
+          fi
+          {
+            echo "database_url_b64<<EOF"
+            printf '%s' "$DATABASE_URL" | base64 -w0
+            echo
+            echo "EOF"
+            echo "better_auth_secret_b64<<EOF"
+            printf '%s' "$BETTER_AUTH_SECRET" | base64 -w0
+            echo
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.2.2
+        env:
+          DATABASE_URL_B64: ${{ steps.secrets.outputs.database_url_b64 }}
+          BETTER_AUTH_SECRET_B64: ${{ steps.secrets.outputs.better_auth_secret_b64 }}
         with:
           host: 185.241.4.184
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           command_timeout: 25m
-          envs: DATABASE_URL,BETTER_AUTH_SECRET
+          envs: DATABASE_URL_B64,BETTER_AUTH_SECRET_B64
           script: |
             set -euo pipefail
             cd /root/axis-app
@@ -45,7 +71,6 @@ jobs:
                 return 0
               fi
               tmp="$(mktemp)"
-              # Never use sed with secret/URL values — `/` and `&` corrupt the file.
               if [ -f .env.production ]; then
                 grep -v "^${key}=" .env.production > "$tmp" || true
               else
@@ -56,33 +81,33 @@ jobs:
               chmod 600 .env.production
             }
 
+            DATABASE_URL="$(printf '%s' "$DATABASE_URL_B64" | base64 -d)"
+            BETTER_AUTH_SECRET="$(printf '%s' "$BETTER_AUTH_SECRET_B64" | base64 -d)"
+
             PUBLIC_APP_URL="${PUBLIC_APP_URL:-http://ensura.co.il}"
             upsert_env NEXT_PUBLIC_APP_URL "$PUBLIC_APP_URL"
             upsert_env BETTER_AUTH_URL "$PUBLIC_APP_URL"
             upsert_env AUTH_TRUSTED_ORIGINS "http://ensura.co.il,https://ensura.co.il,http://www.ensura.co.il,https://www.ensura.co.il,http://185.241.4.184"
+            upsert_env DATABASE_URL "$DATABASE_URL"
+            upsert_env BETTER_AUTH_SECRET "$BETTER_AUTH_SECRET"
 
-            # Sync required secrets from GitHub Actions when configured.
-            if [ -n "${DATABASE_URL:-}" ]; then
-              upsert_env DATABASE_URL "$DATABASE_URL"
-              echo "Synced DATABASE_URL from GitHub secret"
-            fi
+            echo "DATABASE_URL length=${#DATABASE_URL}"
+            echo "BETTER_AUTH_SECRET length=${#BETTER_AUTH_SECRET}"
 
-            if [ -n "${BETTER_AUTH_SECRET:-}" ] && [ "${#BETTER_AUTH_SECRET}" -ge 32 ]; then
-              upsert_env BETTER_AUTH_SECRET "$BETTER_AUTH_SECRET"
-              echo "Synced BETTER_AUTH_SECRET from GitHub secret"
-            else
-              current="$(grep '^BETTER_AUTH_SECRET=' .env.production 2>/dev/null | head -1 | cut -d= -f2- || true)"
-              if [ -z "$current" ] || [ "${#current}" -lt 32 ]; then
-                upsert_env BETTER_AUTH_SECRET "$(openssl rand -base64 32)"
-                echo "Generated strong BETTER_AUTH_SECRET (was missing/too short)"
-              fi
-            fi
-
-            if ! grep -qE '^DATABASE_URL=.+' .env.production; then
-              echo "ERROR: DATABASE_URL is missing in .env.production — set GitHub secret DATABASE_URL"
+            if [ "${#DATABASE_URL}" -lt 20 ] || [ "${#BETTER_AUTH_SECRET}" -lt 32 ]; then
+              echo "ERROR: decoded production secrets look invalid"
               exit 1
             fi
 
+            # Ensure compose injects runtime secrets (do not rely only on baked build args).
             docker compose --env-file .env.production pull
-            docker compose --env-file .env.production up -d --build --remove-orphans
+            docker compose --env-file .env.production up -d --build --remove-orphans --force-recreate
             docker compose ps
+
+            echo "== container env check =="
+            docker compose --env-file .env.production exec -T app node -e '
+              const db = process.env.DATABASE_URL || "";
+              const secret = process.env.BETTER_AUTH_SECRET || "";
+              console.log("container_DATABASE_URL_len=" + db.length);
+              console.log("container_BETTER_AUTH_SECRET_len=" + secret.length);
+            '

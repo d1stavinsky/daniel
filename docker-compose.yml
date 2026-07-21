@@ -12,9 +12,14 @@ services:
       NODE_ENV: production
       HOSTNAME: 0.0.0.0
       PORT: "3000"
+      DATABASE_URL: ${DATABASE_URL}
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL}
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
+      AUTH_TRUSTED_ORIGINS: ${AUTH_TRUSTED_ORIGINS}
     ports:
-      # Keep Next.js private; terminate HTTPS with Caddy/Nginx on the VPS.
-      - "127.0.0.1:3000:3000"
+      # Public HTTP until TLS is terminated separately (Caddy/Nginx).
+      - "80:3000"
     init: true
     restart: unless-stopped
     stop_grace_period: 30s
