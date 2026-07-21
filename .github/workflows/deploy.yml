@@ -40,15 +40,20 @@ jobs:
             upsert_env() {
               local key="$1"
               local value="$2"
+              local tmp
               if [ -z "$value" ]; then
                 return 0
               fi
-              if grep -q "^${key}=" .env.production; then
-                # Use a delimiter unlikely to appear in URLs/secrets.
-                sed -i "s|^${key}=.*|${key}=${value}|" .env.production
+              tmp="$(mktemp)"
+              # Never use sed with secret/URL values — `/` and `&` corrupt the file.
+              if [ -f .env.production ]; then
+                grep -v "^${key}=" .env.production > "$tmp" || true
               else
-                printf '%s=%s\n' "$key" "$value" >> .env.production
+                : > "$tmp"
               fi
+              printf '%s=%s\n' "$key" "$value" >> "$tmp"
+              mv "$tmp" .env.production
+              chmod 600 .env.production
             }
 
             PUBLIC_APP_URL="${PUBLIC_APP_URL:-http://ensura.co.il}"
