@@ -56,6 +56,7 @@ function trustedOrigins(): string[] {
 export const auth = betterAuth({
   database: pool,
   baseURL: appBaseUrl(),
+  secret: process.env.BETTER_AUTH_SECRET,
   emailAndPassword: {
     enabled: true,
     autoSignIn: true,

@@ -50,6 +50,23 @@ jobs:
               echo 'AUTH_TRUSTED_ORIGINS=http://ensura.co.il,https://ensura.co.il,http://www.ensura.co.il,https://www.ensura.co.il,http://185.241.4.184' >> .env.production
             fi
 
+            # Ensure auth secret exists — Better Auth hard-fails without it.
+            if ! grep -qE '^BETTER_AUTH_SECRET=.+' .env.production; then
+              echo "BETTER_AUTH_SECRET=$(openssl rand -base64 32)" >> .env.production
+              echo "Generated missing BETTER_AUTH_SECRET"
+            fi
+
             docker compose --env-file .env.production pull
             docker compose --env-file .env.production up -d --build --remove-orphans
             docker compose ps
+
+            # Ensure the first admin exists (idempotent).
+            if [ -n "${ADMIN_BOOTSTRAP_PASSWORD:-}" ]; then
+              docker compose --env-file .env.production run --rm --no-deps \
+                -e ADMIN_EMAIL="${ADMIN_EMAIL:-admin@axis.co.il}" \
+                -e ADMIN_NAME="${ADMIN_NAME:-ENSURA Admin}" \
+                -e ADMIN_PASSWORD="$ADMIN_BOOTSTRAP_PASSWORD" \
+                --entrypoint node app -e '
+                  console.log("admin bootstrap skipped in slim image — use /setup or host script");
+                ' || true
+            fi

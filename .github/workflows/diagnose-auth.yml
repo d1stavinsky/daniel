@@ -1,0 +1,62 @@
+name: Diagnose production auth
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    name: Diagnose auth
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Inspect production auth over SSH
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: 185.241.4.184
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          command_timeout: 5m
+          script: |
+            set -euo pipefail
+            cd /root/axis-app
+            echo "== container =="
+            docker compose --env-file .env.production ps
+            echo "== env presence (names only) =="
+            for key in DATABASE_URL BETTER_AUTH_SECRET BETTER_AUTH_URL NEXT_PUBLIC_APP_URL AUTH_TRUSTED_ORIGINS; do
+              if grep -q "^${key}=" .env.production; then
+                val=$(grep "^${key}=" .env.production | head -1 | cut -d= -f2-)
+                if [ -z "$val" ]; then
+                  echo "${key}=EMPTY"
+                else
+                  echo "${key}=SET(len=${#val})"
+                fi
+              else
+                echo "${key}=MISSING"
+              fi
+            done
+            echo "== appBaseUrl values =="
+            grep -E '^NEXT_PUBLIC_APP_URL=|^BETTER_AUTH_URL=|^AUTH_TRUSTED_ORIGINS=' .env.production || true
+            echo "== recent app logs =="
+            docker compose --env-file .env.production logs --tail=120 app 2>&1 | tail -120
+            echo "== local auth probe =="
+            curl -sS -o /tmp/auth-out.txt -w "sign-in:%{http_code}\n" -X POST 'http://127.0.0.1:3000/api/auth/sign-in/email' \
+              -H 'content-type: application/json' \
+              -H 'origin: http://ensura.co.il' \
+              -d '{"email":"admin@axis.co.il","password":"x"}' || true
+            head -c 500 /tmp/auth-out.txt; echo
+            curl -sS -o /tmp/session-out.txt -w "session:%{http_code}\n" 'http://127.0.0.1:3000/api/auth/get-session' \
+              -H 'origin: http://ensura.co.il' || true
+            head -c 500 /tmp/session-out.txt; echo
+            echo "== admin count via docker node =="
+            docker compose --env-file .env.production exec -T app node -e '
+              const { Pool } = require("pg");
+              const cs = process.env.DATABASE_URL;
+              if (!cs) { console.log("NO_DATABASE_URL"); process.exit(0); }
+              const pool = new Pool({ connectionString: cs, connectionTimeoutMillis: 5000 });
+              pool.query("select count(*)::int as n from \"user\" where role = '\''admin'\''")
+                .then((r) => { console.log("admin_count=" + r.rows[0].n); return pool.end(); })
+                .catch((e) => { console.log("db_error=" + e.message); process.exit(0); });
+            ' || echo "exec_failed"
