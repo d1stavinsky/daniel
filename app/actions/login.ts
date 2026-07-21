@@ -34,6 +34,26 @@ export async function loginAction(_prev: LoginState, formData: FormData): Promis
     if (err instanceof APIError) {
       return { error: "פרטי ההתחברות שגויים. נסו שוב." }
     }
+
+    const message = err instanceof Error ? err.message : String(err)
+    console.error("[loginAction] sign-in failed:", message)
+
+    // Better Auth sometimes throws plain Errors for CSRF / origin / config issues.
+    const lower = message.toLowerCase()
+    if (
+      lower.includes("invalid origin") ||
+      lower.includes("trusted") ||
+      lower.includes("csrf") ||
+      lower.includes("origin")
+    ) {
+      return {
+        error: "ההתחברות נחסמה עקב הגדרת דומיין. פנו למנהל המערכת.",
+      }
+    }
+    if (lower.includes("password") || lower.includes("credential") || lower.includes("user not found")) {
+      return { error: "פרטי ההתחברות שגויים. נסו שוב." }
+    }
+
     return { error: "אירעה שגיאה בעת ההתחברות. נסו שוב מאוחר יותר." }
   }
 

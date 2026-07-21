@@ -30,6 +30,26 @@ jobs:
             set -euo pipefail
             cd /root/axis-app
             git pull --ff-only origin main
+
+            # Keep Better Auth / app URL aligned with the public domain users open.
+            # Prefer HTTPS when TLS is terminated in front of the app; fall back to HTTP.
+            PUBLIC_APP_URL="${PUBLIC_APP_URL:-http://ensura.co.il}"
+            if grep -q '^NEXT_PUBLIC_APP_URL=' .env.production; then
+              sed -i "s|^NEXT_PUBLIC_APP_URL=.*|NEXT_PUBLIC_APP_URL=${PUBLIC_APP_URL}|" .env.production
+            else
+              echo "NEXT_PUBLIC_APP_URL=${PUBLIC_APP_URL}" >> .env.production
+            fi
+            if grep -q '^BETTER_AUTH_URL=' .env.production; then
+              sed -i "s|^BETTER_AUTH_URL=.*|BETTER_AUTH_URL=${PUBLIC_APP_URL}|" .env.production
+            else
+              echo "BETTER_AUTH_URL=${PUBLIC_APP_URL}" >> .env.production
+            fi
+            if grep -q '^AUTH_TRUSTED_ORIGINS=' .env.production; then
+              sed -i 's|^AUTH_TRUSTED_ORIGINS=.*|AUTH_TRUSTED_ORIGINS=http://ensura.co.il,https://ensura.co.il,http://www.ensura.co.il,https://www.ensura.co.il,http://185.241.4.184|' .env.production
+            else
+              echo 'AUTH_TRUSTED_ORIGINS=http://ensura.co.il,https://ensura.co.il,http://www.ensura.co.il,https://www.ensura.co.il,http://185.241.4.184' >> .env.production
+            fi
+
             docker compose --env-file .env.production pull
             docker compose --env-file .env.production up -d --build --remove-orphans
             docker compose ps

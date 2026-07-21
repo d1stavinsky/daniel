@@ -19,6 +19,40 @@ function appBaseUrl(): string {
   ).replace(/\/$/, "")
 }
 
+function normalizeOrigin(value: string): string {
+  return value.trim().replace(/\/$/, "")
+}
+
+/** Origins allowed for Better Auth CSRF / cookies (comma-separated AUTH_TRUSTED_ORIGINS). */
+function trustedOrigins(): string[] {
+  const fromEnv = (process.env.AUTH_TRUSTED_ORIGINS ?? "")
+    .split(",")
+    .map(normalizeOrigin)
+    .filter(Boolean)
+
+  const defaults = [
+    appBaseUrl(),
+    process.env.NEXT_PUBLIC_APP_URL,
+    process.env.BETTER_AUTH_URL,
+    process.env.V0_RUNTIME_URL,
+    process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "",
+    process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : "",
+    // Production domain — keep even if env still points at the VPS IP.
+    "https://ensura.co.il",
+    "https://www.ensura.co.il",
+    "http://ensura.co.il",
+    "http://www.ensura.co.il",
+    "http://185.241.4.184",
+    ...(process.env.NODE_ENV === "development" ? ["http://localhost:3000"] : []),
+  ]
+    .filter(Boolean)
+    .map((value) => normalizeOrigin(String(value)))
+
+  return [...new Set([...defaults, ...fromEnv])]
+}
+
 export const auth = betterAuth({
   database: pool,
   baseURL: appBaseUrl(),
@@ -33,10 +67,10 @@ export const auth = betterAuth({
       const resetUrl = `${appBaseUrl()}/reset-password?token=${encodeURIComponent(token)}`
       await sendAlertEmail({
         to: resetUser.email,
-        subject: "איפוס סיסמה · AXIS",
+        subject: "איפוס סיסמה · אינשורה",
         heading: "בקשת איפוס סיסמה",
         lines: [
-          "קיבלנו בקשה לאיפוס הסיסמה לחשבון השותפים שלכם ב־AXIS.",
+          "קיבלנו בקשה לאיפוס הסיסמה לחשבון השותפים שלכם באינשורה.",
           "לחצו על הכפתור למטה כדי לבחור סיסמה חדשה. הקישור תקף לשעה אחת.",
           "אם לא ביקשתם איפוס סיסמה, ניתן להתעלם מהודעה זו.",
         ],
@@ -81,17 +115,7 @@ export const auth = betterAuth({
       },
     },
   },
-  trustedOrigins: [
-    appBaseUrl(),
-    ...(process.env.V0_RUNTIME_URL ? [process.env.V0_RUNTIME_URL] : []),
-    ...(process.env.VERCEL_URL ? [`https://${process.env.VERCEL_URL}`] : []),
-    ...(process.env.VERCEL_PROJECT_PRODUCTION_URL
-      ? [`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`]
-      : []),
-    ...(process.env.NEXT_PUBLIC_APP_URL ? [process.env.NEXT_PUBLIC_APP_URL.replace(/\/$/, "")] : []),
-    ...(process.env.BETTER_AUTH_URL ? [process.env.BETTER_AUTH_URL.replace(/\/$/, "")] : []),
-    ...(process.env.NODE_ENV === "development" ? ["http://localhost:3000"] : []),
-  ],
+  trustedOrigins: trustedOrigins(),
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days
     updateAge: 60 * 60 * 24, // 1 day
@@ -99,16 +123,19 @@ export const auth = betterAuth({
   // nextCookies() MUST be last: it relays any cookies Better Auth sets during
   // a server action into Next's cookie store automatically.
   plugins: [nextCookies()],
-  ...(process.env.NODE_ENV === "development"
-    ? {
-        advanced: {
-          // In dev (v0 preview iframe), force cross-site cookies so the
-          // session cookie is stored by the browser.
-          defaultCookieAttributes: {
+  advanced: {
+    useSecureCookies: appBaseUrl().startsWith("https://"),
+    defaultCookieAttributes: {
+      sameSite: "lax",
+      secure: appBaseUrl().startsWith("https://"),
+      ...(process.env.NODE_ENV === "development"
+        ? {
+            // In dev (v0 preview iframe), force cross-site cookies so the
+            // session cookie is stored by the browser.
             sameSite: "none" as const,
             secure: true,
-          },
-        },
-      }
-    : {}),
+          }
+        : {}),
+    },
+  },
 })
