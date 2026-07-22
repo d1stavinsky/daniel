@@ -72,7 +72,7 @@ export function ForgotPasswordForm() {
                   dir="ltr"
                   enterKeyHint="send"
                   placeholder="name@garage.co.il"
-                  className="ensura-field pr-10 text-left"
+                  className="ensura-field-icon text-left"
                 />
               </div>
             </div>

@@ -67,7 +67,7 @@ export function LoginForm() {
                 dir="ltr"
                 enterKeyHint="next"
                 placeholder="name@garage.co.il"
-                className="ensura-field pr-10 text-left"
+                className="ensura-field-icon text-left"
               />
             </div>
           </div>
@@ -90,7 +90,7 @@ export function LoginForm() {
                 dir="ltr"
                 enterKeyHint="go"
                 placeholder="••••••••"
-                className="ensura-field pr-10 text-left"
+                className="ensura-field-icon text-left"
               />
             </div>
           </div>

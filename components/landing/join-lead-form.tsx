@@ -30,7 +30,7 @@ function SubmitButton() {
   )
 }
 
-const fieldWithIconClass = "ensura-field pr-10"
+const fieldWithIconClass = "ensura-field-icon"
 
 export function JoinLeadForm({
   compact = false,
@@ -192,7 +192,7 @@ export function JoinLeadForm({
                 name="partnerType"
                 required
                 defaultValue=""
-                className={cn(fieldWithIconClass, "appearance-none")}
+                className="ensura-field-icon-select"
               >
                 <option value="" disabled>
                   בחירה…
@@ -219,7 +219,7 @@ export function JoinLeadForm({
                 rows={4}
                 maxLength={1000}
                 enterKeyHint="send"
-                className="w-full rounded-lg border border-ensura-navy/12 bg-ensura-canvas/70 py-3 pr-10 pl-3 text-base text-ensura-ink outline-none transition-colors placeholder:text-ensura-navy/35 focus:border-ensura-teal focus:ring-2 focus:ring-ensura-teal/20"
+                className="ensura-field-icon-area"
                 placeholder="ספרו בקצרה על היקף הפעילות או הצורך שלכם"
               />
             </div>

@@ -211,3 +211,26 @@ html:has(.ensura-landing) {
 .ensura-field {
   @apply h-12 w-full rounded-lg border border-ensura-navy/12 bg-ensura-canvas/70 px-3 text-base text-ensura-ink outline-none transition-colors placeholder:text-ensura-navy/35 focus:border-ensura-teal focus:ring-2 focus:ring-ensura-teal/20;
 }
+
+/* Icon sits at physical right-3; keep text clear in both RTL and LTR fields */
+.ensura-field-icon {
+  @apply h-12 w-full rounded-lg border border-ensura-navy/12 bg-ensura-canvas/70 text-base text-ensura-ink outline-none transition-colors placeholder:text-ensura-navy/35 focus:border-ensura-teal focus:ring-2 focus:ring-ensura-teal/20;
+  padding-left: 0.75rem;
+  padding-right: 2.75rem;
+}
+
+.ensura-field-icon-select {
+  @apply h-12 w-full appearance-none rounded-lg border border-ensura-navy/12 bg-ensura-canvas/70 text-base text-ensura-ink outline-none transition-colors placeholder:text-ensura-navy/35 focus:border-ensura-teal focus:ring-2 focus:ring-ensura-teal/20;
+  /* Icon on right; native chevron on left in RTL */
+  padding-left: 2.25rem;
+  padding-right: 2.75rem;
+}
+
+.ensura-field-icon-area {
+  @apply w-full rounded-lg border border-ensura-navy/12 bg-ensura-canvas/70 text-base text-ensura-ink outline-none transition-colors placeholder:text-ensura-navy/35 focus:border-ensura-teal focus:ring-2 focus:ring-ensura-teal/20;
+  min-height: 6.5rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 0.75rem;
+  padding-right: 2.75rem;
+}
