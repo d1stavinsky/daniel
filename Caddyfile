@@ -1,0 +1,27 @@
+# Automatic HTTPS via Let's Encrypt (HTTP-01 on :80, TLS on :443).
+# Requires DNS A/AAAA for ensura.co.il (+ www) pointing at this host.
+
+{
+	email {$ACME_EMAIL:admin@ensura.co.il}
+}
+
+www.ensura.co.il {
+	redir https://ensura.co.il{uri} permanent
+}
+
+ensura.co.il {
+	encode gzip zstd
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		-Server
+	}
+
+	reverse_proxy app:3000 {
+		header_up X-Forwarded-Proto {scheme}
+		header_up X-Forwarded-Host {host}
+		header_up X-Real-IP {remote_host}
+	}
+}

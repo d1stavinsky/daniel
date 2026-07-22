@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://ensura.co.il}
+        NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-https://ensura.co.il}
         BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
     env_file:
       - .env.production
@@ -18,16 +18,50 @@ services:
       BETTER_AUTH_URL: ${BETTER_AUTH_URL}
       NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
       AUTH_TRUSTED_ORIGINS: ${AUTH_TRUSTED_ORIGINS}
-    ports:
-      # Public HTTP until TLS is terminated separately (Caddy/Nginx).
-      - "80:3000"
+    # App stays on the Docker network only — Caddy terminates TLS publicly.
+    expose:
+      - "3000"
     init: true
     restart: unless-stopped
     stop_grace_period: 30s
     security_opt:
       - no-new-privileges:true
+    networks:
+      - ensura
     logging:
       driver: json-file
       options:
         max-size: "10m"
         max-file: "5"
+
+  caddy:
+    image: caddy:2.9-alpine
+    container_name: ensura-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      ACME_EMAIL: ${ACME_EMAIL:-admin@ensura.co.il}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+    networks:
+      - ensura
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+networks:
+  ensura:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:

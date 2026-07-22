@@ -86,10 +86,11 @@ jobs:
             DATABASE_URL="$(printf '%s' "$DATABASE_URL_B64" | base64 -d)"
             BETTER_AUTH_SECRET="$(printf '%s' "$BETTER_AUTH_SECRET_B64" | base64 -d)"
 
-            PUBLIC_APP_URL="${PUBLIC_APP_URL:-http://ensura.co.il}"
+            PUBLIC_APP_URL="${PUBLIC_APP_URL:-https://ensura.co.il}"
             upsert_env NEXT_PUBLIC_APP_URL "$PUBLIC_APP_URL"
             upsert_env BETTER_AUTH_URL "$PUBLIC_APP_URL"
-            upsert_env AUTH_TRUSTED_ORIGINS "http://ensura.co.il,https://ensura.co.il,http://www.ensura.co.il,https://www.ensura.co.il,http://185.241.4.184"
+            upsert_env AUTH_TRUSTED_ORIGINS "https://ensura.co.il,https://www.ensura.co.il"
+            upsert_env ACME_EMAIL "${ACME_EMAIL:-admin@ensura.co.il}"
             upsert_env DATABASE_URL "$DATABASE_URL"
             upsert_env BETTER_AUTH_SECRET "$BETTER_AUTH_SECRET"
 
@@ -97,7 +98,8 @@ jobs:
             export DATABASE_URL BETTER_AUTH_SECRET
             export NEXT_PUBLIC_APP_URL="$PUBLIC_APP_URL"
             export BETTER_AUTH_URL="$PUBLIC_APP_URL"
-            export AUTH_TRUSTED_ORIGINS="http://ensura.co.il,https://ensura.co.il,http://www.ensura.co.il,https://www.ensura.co.il,http://185.241.4.184"
+            export AUTH_TRUSTED_ORIGINS="https://ensura.co.il,https://www.ensura.co.il"
+            export ACME_EMAIL="${ACME_EMAIL:-admin@ensura.co.il}"
 
             echo "DATABASE_URL length=${#DATABASE_URL}"
             echo "BETTER_AUTH_SECRET length=${#BETTER_AUTH_SECRET}"
@@ -106,6 +108,12 @@ jobs:
             if [ "${#DATABASE_URL}" -lt 20 ] || [ "${#BETTER_AUTH_SECRET}" -lt 32 ]; then
               echo "ERROR: decoded production secrets look invalid"
               exit 1
+            fi
+
+            # Free host :80 if an older compose mapped the app there directly.
+            if command -v ufw >/dev/null 2>&1; then
+              ufw allow 80/tcp || true
+              ufw allow 443/tcp || true
             fi
 
             # Ensure compose injects runtime secrets (do not rely only on baked build args).
@@ -117,6 +125,15 @@ jobs:
             docker compose --env-file .env.production exec -T app node -e '
               const db = process.env.DATABASE_URL || "";
               const secret = process.env.BETTER_AUTH_SECRET || "";
+              const url = process.env.NEXT_PUBLIC_APP_URL || "";
               console.log("container_DATABASE_URL_len=" + db.length);
               console.log("container_BETTER_AUTH_SECRET_len=" + secret.length);
+              console.log("container_NEXT_PUBLIC_APP_URL=" + url);
             '
+
+            echo "== HTTPS probe =="
+            sleep 5
+            curl -fsSI --max-time 30 https://ensura.co.il/ | head -n 15 || {
+              echo "WARN: HTTPS probe failed — check Caddy logs and DNS"
+              docker compose --env-file .env.production logs --tail=80 caddy || true
+            }

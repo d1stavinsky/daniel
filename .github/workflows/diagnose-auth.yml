@@ -41,15 +41,20 @@ jobs:
             grep -E '^NEXT_PUBLIC_APP_URL=|^BETTER_AUTH_URL=|^AUTH_TRUSTED_ORIGINS=' .env.production || true
             echo "== recent app logs =="
             docker compose --env-file .env.production logs --tail=120 app 2>&1 | tail -120
-            echo "== local auth probe =="
-            curl -sS -o /tmp/auth-out.txt -w "sign-in:%{http_code}\n" -X POST 'http://127.0.0.1:3000/api/auth/sign-in/email' \
-              -H 'content-type: application/json' \
-              -H 'origin: http://ensura.co.il' \
-              -d '{"email":"admin@axis.co.il","password":"x"}' || true
-            head -c 500 /tmp/auth-out.txt; echo
-            curl -sS -o /tmp/session-out.txt -w "session:%{http_code}\n" 'http://127.0.0.1:3000/api/auth/get-session' \
-              -H 'origin: http://ensura.co.il' || true
-            head -c 500 /tmp/session-out.txt; echo
+            echo "== local auth probe (via app container) =="
+            docker compose --env-file .env.production exec -T app \
+              wget -qO- --post-data='{"email":"admin@axis.co.il","password":"x"}' \
+              --header='Content-Type: application/json' \
+              --header='Origin: https://ensura.co.il' \
+              http://127.0.0.1:3000/api/auth/sign-in/email 2>&1 | head -c 500 || true
+            echo
+            docker compose --env-file .env.production exec -T app \
+              wget -qO- --header='Origin: https://ensura.co.il' \
+              http://127.0.0.1:3000/api/auth/get-session 2>&1 | head -c 500 || true
+            echo
+            echo "== public HTTPS probe =="
+            curl -fsSI --max-time 20 https://ensura.co.il/ | head -n 12 || true
+            docker compose --env-file .env.production logs --tail=40 caddy 2>&1 | tail -40 || true
             echo "== admin count via docker node =="
             docker compose --env-file .env.production exec -T app node -e '
               const { Pool } = require("pg");
