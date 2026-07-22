@@ -100,7 +100,7 @@ export function MatchingEngine({ claims, onSelect, onReconcile }: MatchingEngine
                     <button
                       type="button"
                       onClick={() => onSelect(claim.id)}
-                      className="font-medium text-foreground hover:text-gold-foreground hover:underline"
+                      className="font-medium text-foreground hover:text-primary hover:underline"
                     >
                       {claim.id}
                     </button>

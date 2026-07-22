@@ -4,7 +4,7 @@ import { useActionState } from "react"
 import { useFormStatus } from "react-dom"
 import { Loader2, ShieldCheck } from "lucide-react"
 import { bootstrapAdmin, type BootstrapState } from "@/app/actions/bootstrap"
-import { AxisLogo } from "@/components/brand/axis-logo"
+import { EnsuraLogo } from "@/components/brand/ensura-logo"
 
 const field =
   "h-11 w-full rounded-lg border border-input bg-background/60 px-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/30"
@@ -30,13 +30,13 @@ export function SetupForm() {
     <div className="w-full max-w-md">
       <div className="glass-strong rounded-2xl border border-border p-8 shadow-2xl sm:p-10">
         <div className="mb-8 flex flex-col items-center gap-4 text-center">
-          <AxisLogo />
+          <EnsuraLogo tone="dark" />
           <div>
-            <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-gold/30 bg-gold/10 px-3 py-1 text-xs font-medium text-gold">
+            <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
               <ShieldCheck className="size-3.5" aria-hidden="true" />
               הגדרה ראשונית
             </div>
-            <h1 className="text-xl font-semibold text-foreground text-balance">יצירת חשבון מנהל AXIS</h1>
+            <h1 className="text-xl font-semibold text-foreground text-balance">יצירת חשבון מנהל אינשורה</h1>
             <p className="mt-1 text-sm text-muted-foreground text-pretty">
               חשבון זה ינהל את השותפים והתביעות. ניתן ליצור פעם אחת בלבד.
             </p>

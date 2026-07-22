@@ -96,7 +96,7 @@ export function SettingsView({ isFullAdmin }: { isFullAdmin: boolean }) {
               <button
                 type="button"
                 onClick={() => void addWebhook()}
-                className="rounded-lg bg-gold px-4 py-2 text-sm font-medium text-gold-foreground"
+                className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
               >
                 הוספה
               </button>

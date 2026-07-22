@@ -358,7 +358,7 @@ function CredentialsDialog({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true">
       <div className="absolute inset-0 bg-background/70 backdrop-blur-sm" onClick={onClose} aria-hidden="true" />
-      <div className="glass-strong relative z-10 w-full max-w-md rounded-2xl border border-gold/30 p-6 shadow-2xl">
+      <div className="glass-strong relative z-10 w-full max-w-md rounded-2xl border border-primary/30 p-6 shadow-2xl">
         <button
           type="button"
           onClick={onClose}
@@ -368,7 +368,7 @@ function CredentialsDialog({
           <X className="size-5" />
         </button>
 
-        <div className="mb-4 flex items-center gap-2 text-gold">
+        <div className="mb-4 flex items-center gap-2 text-primary">
           <ShieldCheck className="size-5" aria-hidden="true" />
           <h3 className="text-base font-semibold">פרטי ההתחברות נוצרו</h3>
         </div>

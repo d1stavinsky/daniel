@@ -96,7 +96,7 @@ export function SignedDocumentUploadModal({
       <div className="relative z-10 w-full max-w-md rounded-xl border border-border bg-card shadow-xl">
         <div className="flex items-start justify-between gap-3 border-b border-border px-5 py-4">
           <div>
-            <div className="flex items-center gap-2 text-gold">
+            <div className="flex items-center gap-2 text-primary">
               <Lock className="size-4" aria-hidden="true" />
               <span className="text-xs font-medium">העלאה מאובטחת</span>
             </div>
@@ -139,8 +139,8 @@ export function SignedDocumentUploadModal({
             disabled={uploading}
             onClick={() => inputRef.current?.click()}
             className={cn(
-              "flex w-full flex-col items-center gap-2 rounded-lg border border-dashed border-border bg-secondary/30 px-4 py-8 text-center transition-colors hover:border-gold/40 hover:bg-gold/5",
-              file && "border-gold/40 bg-gold/5",
+              "flex w-full flex-col items-center gap-2 rounded-lg border border-dashed border-border bg-secondary/30 px-4 py-8 text-center transition-colors hover:border-primary/40 hover:bg-primary/5",
+              file && "border-primary/40 bg-primary/5",
             )}
           >
             <FileUp className="size-8 text-muted-foreground" aria-hidden="true" />
@@ -161,7 +161,7 @@ export function SignedDocumentUploadModal({
             <div className="space-y-1">
               <div className="h-1.5 overflow-hidden rounded-full bg-secondary">
                 <div
-                  className="h-full rounded-full bg-gold transition-all"
+                  className="h-full rounded-full bg-primary transition-all"
                   style={{ width: `${pct}%` }}
                 />
               </div>

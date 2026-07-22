@@ -8,14 +8,14 @@ import {
 
 const statusStyles: Record<ClaimProgressStatus, string> = {
   pending: "bg-secondary text-muted-foreground ring-border",
-  in_progress: "bg-gold/15 text-gold ring-gold/30",
+  in_progress: "bg-primary/15 text-primary ring-primary/30",
   pending_resolution: "bg-amber-400/15 text-amber-700 ring-amber-400/30",
   completed: "bg-emerald-500/15 text-emerald-400 ring-emerald-500/30",
 }
 
 const barStyles: Record<ClaimProgressStatus, string> = {
   pending: "bg-secondary",
-  in_progress: "bg-gold",
+  in_progress: "bg-primary",
   pending_resolution: "bg-amber-400",
   completed: "bg-emerald-500",
 }

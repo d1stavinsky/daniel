@@ -324,7 +324,7 @@ export function AdminShell({ dashboardStats, partnerOptions, partnersSlot, curre
               aria-pressed={isAdminMode}
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors",
-                isAdminMode ? "bg-gold text-gold-foreground" : "text-muted-foreground hover:text-foreground",
+                isAdminMode ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
               )}
             >
               <Pencil className="size-3.5" aria-hidden="true" />
@@ -367,7 +367,7 @@ export function AdminShell({ dashboardStats, partnerOptions, partnersSlot, curre
         </header>
 
         {scanMsg && (
-          <div className="border-b border-border bg-gold/10 px-4 py-2 text-center text-xs font-medium text-foreground sm:px-6">
+          <div className="border-b border-border bg-primary/10 px-4 py-2 text-center text-xs font-medium text-foreground sm:px-6">
             {scanMsg}
           </div>
         )}
@@ -479,7 +479,7 @@ function FinanceBreakdown({ stats }: { stats: ClaimsDashboardStats }) {
                   </span>
                 </div>
                 <div className="h-2 overflow-hidden rounded-full bg-secondary">
-                  <div className="h-full rounded-full bg-gold" style={{ width: `${pct}%` }} />
+                  <div className="h-full rounded-full bg-primary" style={{ width: `${pct}%` }} />
                 </div>
               </div>
             )

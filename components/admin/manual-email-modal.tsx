@@ -119,7 +119,7 @@ export function ManualEmailModal({
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <div>
             <h2 id="manual-email-title" className="flex items-center gap-2 text-base font-semibold">
-              <Mail className="size-4 text-gold" aria-hidden="true" />
+              <Mail className="size-4 text-primary" aria-hidden="true" />
               שליחת דוא״ל ידני
             </h2>
             <p className="mt-1 text-xs text-muted-foreground">תיק {claimId}</p>
@@ -156,7 +156,7 @@ export function ManualEmailModal({
                   value={recipient}
                   onChange={(event) => setRecipient(event.target.value)}
                   placeholder="name@example.com"
-                  className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm outline-none focus:border-gold focus:ring-1 focus:ring-gold"
+                  className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                 />
               </label>
 
@@ -167,7 +167,7 @@ export function ManualEmailModal({
                   value={subject}
                   onChange={(event) => setSubject(event.target.value)}
                   maxLength={180}
-                  className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm outline-none focus:border-gold focus:ring-1 focus:ring-gold"
+                  className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                 />
               </label>
 
@@ -178,7 +178,7 @@ export function ManualEmailModal({
                   onChange={(event) => setBody(event.target.value)}
                   rows={7}
                   maxLength={20_000}
-                  className="w-full resize-y rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none focus:border-gold focus:ring-1 focus:ring-gold"
+                  className="w-full resize-y rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                 />
               </label>
 
@@ -210,7 +210,7 @@ export function ManualEmailModal({
                             checked={selected.has(doc.id)}
                             onChange={() => toggleDocument(doc.id)}
                             disabled={!selected.has(doc.id) && selected.size >= 10}
-                            className="size-4 accent-gold"
+                            className="size-4 accent-primary"
                           />
                           <span className="min-w-0 flex-1">
                             <span className="block truncate text-xs font-medium">

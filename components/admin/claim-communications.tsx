@@ -160,7 +160,7 @@ export function ClaimCommunications({
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <h3 className="flex items-center gap-2 text-sm font-semibold text-foreground">
-                <Mail className="size-4 shrink-0 text-gold" aria-hidden="true" />
+                <Mail className="size-4 shrink-0 text-primary" aria-hidden="true" />
                 <span className="truncate">{email.subject || "ללא נושא"}</span>
               </h3>
               <p className="mt-1 truncate text-xs text-muted-foreground" dir="ltr">
@@ -258,7 +258,7 @@ export function ClaimCommunications({
                                 setConfirmReplaceId(null)
                                 setErrors((previous) => ({ ...previous, [attachment.id]: "" }))
                               }}
-                              className="h-9 min-w-0 flex-1 rounded-lg border border-input bg-background px-3 text-xs text-foreground outline-none focus:border-gold"
+                              className="h-9 min-w-0 flex-1 rounded-lg border border-input bg-background px-3 text-xs text-foreground outline-none focus:border-primary"
                               aria-label={`בחירת סוג מסמך עבור ${attachment.fileName}`}
                               autoFocus
                             >

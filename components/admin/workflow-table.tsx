@@ -147,7 +147,7 @@ export function WorkflowTable({ partnerOptions, onOpen }: WorkflowTableProps) {
                 onClick={() => onOpen(claim)}
                 className={cn(
                   "group flex flex-col gap-4 rounded-2xl border border-border bg-card p-5 text-right",
-                  "transition-all duration-200 hover:-translate-y-0.5 hover:border-gold/70 hover:shadow-lg hover:shadow-black/20",
+                  "transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/70 hover:shadow-lg hover:shadow-black/20",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
                 )}
               >
@@ -216,7 +216,7 @@ export function WorkflowTable({ partnerOptions, onOpen }: WorkflowTableProps) {
                       בסטטוס זה {claim.daysInStage} ימים
                     </span>
                   )}
-                  <span className="inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors group-hover:text-gold">
+                  <span className="inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors group-hover:text-primary">
                     פרטים
                     <ChevronLeft className="size-3.5" aria-hidden="true" />
                   </span>

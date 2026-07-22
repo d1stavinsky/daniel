@@ -54,12 +54,12 @@ export function FileDropzone({
         "flex w-full flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed px-3 py-4 text-center transition-colors",
         disabled
           ? "cursor-not-allowed border-border/60 opacity-50"
-          : "cursor-pointer border-border hover:border-gold/60 hover:bg-gold/5",
-        dragging && "border-gold bg-gold/10",
+          : "cursor-pointer border-border hover:border-primary/60 hover:bg-primary/5",
+        dragging && "border-primary bg-primary/10",
       )}
     >
       <UploadCloud
-        className={cn("size-5", dragging ? "text-gold" : "text-muted-foreground")}
+        className={cn("size-5", dragging ? "text-primary" : "text-muted-foreground")}
         aria-hidden="true"
       />
       <span className="text-xs text-muted-foreground">{label}</span>

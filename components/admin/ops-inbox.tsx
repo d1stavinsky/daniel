@@ -104,7 +104,7 @@ function urgencyLabel(score: number): string {
 function urgencyBarClass(score: number): string {
   if (score >= 100) return "bg-rose-500"
   if (score >= 80) return "bg-amber-400"
-  if (score >= 60) return "bg-gold"
+  if (score >= 60) return "bg-primary"
   return "bg-muted-foreground/40"
 }
 
@@ -216,7 +216,7 @@ export function OpsInbox({
               className={cn(
                 "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
                 active
-                  ? "border-gold/50 bg-gold/10 text-foreground"
+                  ? "border-primary/50 bg-primary/10 text-foreground"
                   : "border-border bg-transparent text-muted-foreground hover:border-border hover:bg-secondary/60 hover:text-foreground",
               )}
             >
@@ -391,7 +391,7 @@ function InboxRow({
       <div
         className={cn(
           "grid grid-cols-1 gap-3 px-4 py-3.5 transition-colors hover:bg-secondary/30 md:grid-cols-[6.5rem_minmax(0,1.4fr)_5.5rem_4.5rem_11rem] md:items-center md:gap-3",
-          isNewClaim && "bg-gold/5 ring-1 ring-inset ring-gold/25",
+          isNewClaim && "bg-primary/5 ring-1 ring-inset ring-primary/25",
           busy && "opacity-70",
         )}
         aria-busy={busy != null}
@@ -402,7 +402,7 @@ function InboxRow({
               {item.claimId}
             </p>
             {isNewClaim && (
-              <span className="rounded-full border border-gold/40 bg-gold/10 px-1.5 py-0.5 text-[9px] font-semibold text-gold">
+              <span className="rounded-full border border-primary/40 bg-primary/10 px-1.5 py-0.5 text-[9px] font-semibold text-primary">
                 חדש
               </span>
             )}
@@ -436,7 +436,7 @@ function InboxRow({
           <p className="mt-0.5 hidden truncate text-[11px] text-muted-foreground/80 md:block">
             שם לקוח: {customerName} · רכב: {item.plate} · טלפון: {customerPhone} · {item.partnerName}
           </p>
-          <p className="mt-1 text-[10px] font-medium text-gold/80">
+          <p className="mt-1 text-[10px] font-medium text-primary/80">
             שלב {item.workflowStage} · {businessWorkflowStageLabelsHe[item.workflowStage]}
           </p>
         </div>
@@ -472,7 +472,7 @@ function InboxRow({
                 setBusy(null)
               }}
               title="סומן כחתום והעלה — מכתב דרישה חתום"
-              className="inline-flex items-center gap-1 rounded-lg border border-gold/40 bg-gold/10 px-2.5 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-gold/20 disabled:opacity-50"
+              className="inline-flex items-center gap-1 rounded-lg border border-primary/40 bg-primary/10 px-2.5 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-primary/20 disabled:opacity-50"
             >
               <Check className="size-3.5" aria-hidden="true" />
               סומן כחתום והעלה
@@ -484,7 +484,7 @@ function InboxRow({
               disabled={busy != null}
               onClick={() => void run("confirm", onConfirmResolution)}
               title="אישור תקבול וסגירת התיק"
-              className="inline-flex items-center gap-1 rounded-lg border border-gold/40 bg-gold/10 px-2.5 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-gold/20 disabled:opacity-50"
+              className="inline-flex items-center gap-1 rounded-lg border border-primary/40 bg-primary/10 px-2.5 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-primary/20 disabled:opacity-50"
             >
               {busy === "confirm" ? (
                 <Loader2 className="size-3.5 animate-spin" aria-hidden="true" />
@@ -532,7 +532,7 @@ function InboxRow({
             onClick={onOpen}
             title="פתיחת התיק"
             aria-label={`פתיחת תיק ${item.claimId}`}
-            className="inline-flex size-8 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground transition-colors hover:border-gold/40 hover:bg-gold/8 hover:text-foreground disabled:opacity-50"
+            className="inline-flex size-8 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground transition-colors hover:border-primary/40 hover:bg-primary/8 hover:text-foreground disabled:opacity-50"
           >
             <ArrowUpLeft className="size-3.5" aria-hidden="true" />
           </button>

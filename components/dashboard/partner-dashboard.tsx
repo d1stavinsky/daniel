@@ -32,7 +32,7 @@ export function PartnerDashboard({
             ברוך שובך
           </h1>
           <p className="text-sm text-muted-foreground">
-            ניתן לצפות בתיקים ולהוריד מסמכים. עדכון נתונים מתבצע על ידי AXIS בלבד.
+            ניתן לצפות בתיקים ולהוריד מסמכים. עדכון נתונים מתבצע על ידי אינשורה בלבד.
           </p>
         </div>
 

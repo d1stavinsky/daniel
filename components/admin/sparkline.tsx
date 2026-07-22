@@ -25,7 +25,7 @@ export function Sparkline({ requested, received, showRatio = false, className }:
     received <= 0
       ? "bg-muted-foreground/30"
       : received >= requested
-        ? "bg-gold"
+        ? "bg-primary"
         : "bg-legal"
 
   return (

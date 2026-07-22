@@ -32,7 +32,7 @@ export function StageProgress({ currentStage, className, showLabel = true }: Sta
               className={cn(
                 "h-1.5 flex-1 rounded-full transition-colors",
                 done && "bg-trust",
-                current && !isClosed && "bg-gold",
+                current && !isClosed && "bg-primary",
                 current && isClosed && "bg-trust",
                 !done && !current && "bg-secondary",
               )}

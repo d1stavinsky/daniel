@@ -4,7 +4,7 @@ import { useActionState } from "react"
 import { useFormStatus } from "react-dom"
 import { Loader2, Lock, ShieldCheck } from "lucide-react"
 import { completePasswordReset, type ResetState } from "@/app/actions/account"
-import { AxisLogo } from "@/components/brand/axis-logo"
+import { EnsuraLogo } from "@/components/brand/ensura-logo"
 
 function SubmitButton() {
   const { pending } = useFormStatus()
@@ -63,10 +63,10 @@ export function ResetPasswordForm() {
     <div className="w-full max-w-md">
       <div className="glass-strong rounded-2xl border border-border p-8 shadow-2xl sm:p-10">
         <div className="mb-8 flex flex-col items-center gap-4 text-center">
-          <AxisLogo />
+          <EnsuraLogo tone="dark" />
           <div>
             <h1 className="flex items-center justify-center gap-2 text-xl font-semibold text-foreground text-balance">
-              <ShieldCheck className="size-5 text-gold" aria-hidden="true" />
+              <ShieldCheck className="size-5 text-primary" aria-hidden="true" />
               בחירת סיסמה חדשה
             </h1>
             <p className="mt-1 text-sm text-muted-foreground text-pretty">
@@ -104,7 +104,7 @@ export function ResetPasswordForm() {
       </div>
 
       <p className="mt-6 text-center text-xs text-muted-foreground">
-        גישה מאובטחת · AXIS ניהול תביעות
+        גישה מאובטחת · אינשורה | ENSURA
       </p>
     </div>
   )

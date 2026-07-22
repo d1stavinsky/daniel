@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import { Workflow, Users, Wallet, Settings, LogOut, X, Inbox } from "lucide-react"
-import { AxisLogo } from "@/components/brand/axis-logo"
+import { EnsuraLogo } from "@/components/brand/ensura-logo"
 import { authClient } from "@/lib/auth-client"
 import { cn } from "@/lib/utils"
 
@@ -31,7 +31,7 @@ type AdminSidebarProps = {
 
 function initials(name: string): string {
   const parts = name.trim().split(/\s+/).slice(0, 2)
-  return parts.map((p) => p[0]).join("") || "AX"
+  return parts.map((p) => p[0]).join("") || "E"
 }
 
 export function AdminSidebar({
@@ -73,7 +73,7 @@ export function AdminSidebar({
         )}
       >
         <div className="flex h-16 items-center justify-between border-b border-sidebar-border px-5">
-          <AxisLogo />
+          <EnsuraLogo compact tone="dark" />
           <button
             type="button"
             onClick={onClose}
@@ -101,13 +101,13 @@ export function AdminSidebar({
                 className={cn(
                   "relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                   isActive
-                    ? "bg-gold/12 text-gold"
+                    ? "bg-primary/12 text-primary"
                     : "text-sidebar-foreground hover:bg-sidebar-accent",
                 )}
               >
                 {isActive && (
                   <span
-                    className="pointer-events-none absolute inset-y-2 right-0 w-0.5 rounded-full bg-gold"
+                    className="pointer-events-none absolute inset-y-2 right-0 w-0.5 rounded-full bg-primary"
                     aria-hidden="true"
                   />
                 )}
@@ -125,7 +125,7 @@ export function AdminSidebar({
 
         <div className="border-t border-sidebar-border p-3">
           <div className="flex items-center gap-3 rounded-lg px-3 py-2">
-            <div className="flex size-9 items-center justify-center rounded-full bg-secondary text-sm font-semibold text-foreground ring-1 ring-gold/30">
+            <div className="flex size-9 items-center justify-center rounded-full bg-secondary text-sm font-semibold text-foreground ring-1 ring-primary/30">
               {initials(currentUser.name)}
             </div>
             <div className="min-w-0 flex-1">

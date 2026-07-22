@@ -218,7 +218,7 @@ export function ClaimDetailModal({
                   claim.progressStatus === "completed" && "bg-emerald-500/15 text-emerald-400 ring-emerald-500/30",
                   claim.progressStatus === "pending_resolution" &&
                     "bg-amber-400/15 text-amber-700 ring-amber-400/30",
-                  claim.progressStatus === "in_progress" && "bg-gold/15 text-gold ring-gold/30",
+                  claim.progressStatus === "in_progress" && "bg-primary/15 text-primary ring-primary/30",
                   claim.progressStatus === "pending" && "bg-secondary text-muted-foreground ring-border",
                 )}
               >
@@ -227,7 +227,7 @@ export function ClaimDetailModal({
               <span
                 className={cn(
                   "rounded-md px-2 py-0.5 text-[11px] font-medium",
-                  isAdmin ? "bg-gold/15 text-gold" : "bg-secondary text-muted-foreground",
+                  isAdmin ? "bg-primary/15 text-primary" : "bg-secondary text-muted-foreground",
                 )}
               >
                 {isAdmin ? "מצב ניהול" : "תצוגת שותף"}
@@ -283,7 +283,7 @@ export function ClaimDetailModal({
               className={cn(
                 "border-b-2 px-3 py-2.5 text-xs font-medium transition-colors",
                 activeTab === "details"
-                  ? "border-gold text-foreground"
+                  ? "border-primary text-foreground"
                   : "border-transparent text-muted-foreground hover:text-foreground",
               )}
             >
@@ -297,7 +297,7 @@ export function ClaimDetailModal({
               className={cn(
                 "border-b-2 px-3 py-2.5 text-xs font-medium transition-colors",
                 activeTab === "communications"
-                  ? "border-gold text-foreground"
+                  ? "border-primary text-foreground"
                   : "border-transparent text-muted-foreground hover:text-foreground",
               )}
             >
@@ -320,7 +320,7 @@ export function ClaimDetailModal({
                     setShowAddContributor((v) => !v)
                     setContributorError(null)
                   }}
-                  className="inline-flex items-center gap-1.5 text-xs font-medium text-gold transition-colors hover:text-gold/80"
+                  className="inline-flex items-center gap-1.5 text-xs font-medium text-primary transition-colors hover:text-primary/80"
                 >
                   <UserPlus className="size-3.5" aria-hidden="true" />
                   הוספת תורם
@@ -408,7 +408,7 @@ export function ClaimDetailModal({
               <label className="mt-3 flex cursor-pointer items-start gap-2.5 rounded-lg border border-amber-400/30 bg-background/60 px-3 py-2.5">
                 <input
                   type="checkbox"
-                  className="mt-0.5 size-4 rounded border-border accent-gold"
+                  className="mt-0.5 size-4 rounded border-border accent-primary"
                   checked={paymentAcknowledged}
                   onChange={(e) => setPaymentAcknowledged(e.target.checked)}
                   aria-label="אישור שהכסף התקבל בחשבון"
@@ -453,7 +453,7 @@ export function ClaimDetailModal({
           {showDemandDraftAction && (
             <div className="border-b border-border px-5 py-4">
               <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-foreground">
-                <PenLine className="size-4 text-gold" aria-hidden="true" />
+                <PenLine className="size-4 text-primary" aria-hidden="true" />
                 מכתב דרישה לחתימה
               </h3>
               {demandState.pendingSignature ? (
@@ -495,7 +495,7 @@ export function ClaimDetailModal({
           {canSendManualEmail && (
             <div className="border-b border-border px-5 py-4">
               <h3 className="flex items-center gap-2 text-sm font-semibold text-foreground">
-                <Mail className="size-4 text-gold" aria-hidden="true" />
+                <Mail className="size-4 text-primary" aria-hidden="true" />
                 תקשורת ידנית
               </h3>
               <p className="mt-1 text-xs text-muted-foreground">
@@ -519,7 +519,7 @@ export function ClaimDetailModal({
           <div className="p-5">
             <div className="mb-3 flex items-center justify-between gap-3">
               <h3 className="flex items-center gap-2 text-sm font-semibold text-foreground">
-                <FileText className="size-4 text-gold" aria-hidden="true" />
+                <FileText className="size-4 text-primary" aria-hidden="true" />
                 מסמכים נדרשים
               </h3>
               {canSendManualEmail && (
@@ -768,7 +768,7 @@ function FinancialControls({
           onClick={() => onToggleFunds?.(claim.id)}
           className={cn(
             "relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors",
-            released ? "bg-gold" : "bg-muted",
+            released ? "bg-primary" : "bg-muted",
           )}
         >
           <span
@@ -802,7 +802,7 @@ function AmountField({
         autoComplete="off"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm tabular-nums text-foreground outline-none transition-colors focus:border-gold focus:ring-1 focus:ring-gold"
+        className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm tabular-nums text-foreground outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary"
         dir="ltr"
       />
     </label>

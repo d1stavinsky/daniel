@@ -5,7 +5,7 @@ import { useFormStatus } from "react-dom"
 import Link from "next/link"
 import { Loader2, Lock, ShieldCheck } from "lucide-react"
 import { completeTokenPasswordReset, type TokenResetState } from "@/app/actions/forgot-password"
-import { AxisLogo } from "@/components/brand/axis-logo"
+import { EnsuraLogo } from "@/components/brand/ensura-logo"
 
 function SubmitButton() {
   const { pending } = useFormStatus()
@@ -72,7 +72,7 @@ export function TokenResetPasswordForm({
       <div className="w-full max-w-md">
         <div className="glass-strong rounded-2xl border border-border p-8 shadow-2xl sm:p-10">
           <div className="mb-6 flex flex-col items-center gap-4 text-center">
-            <AxisLogo />
+            <EnsuraLogo tone="dark" />
             <h1 className="text-xl font-semibold text-foreground">קישור אינו תקין</h1>
             <p className="text-sm text-muted-foreground text-pretty">
               {invalidReason === "INVALID_TOKEN"
@@ -95,10 +95,10 @@ export function TokenResetPasswordForm({
     <div className="w-full max-w-md">
       <div className="glass-strong rounded-2xl border border-border p-8 shadow-2xl sm:p-10">
         <div className="mb-8 flex flex-col items-center gap-4 text-center">
-          <AxisLogo />
+          <EnsuraLogo tone="dark" />
           <div>
             <h1 className="flex items-center justify-center gap-2 text-xl font-semibold text-foreground text-balance">
-              <ShieldCheck className="size-5 text-gold" aria-hidden="true" />
+              <ShieldCheck className="size-5 text-primary" aria-hidden="true" />
               סיסמה חדשה
             </h1>
             <p className="mt-1 text-sm text-muted-foreground text-pretty">

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation"
 import { Search, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { EnsuraLogo } from "@/components/brand/ensura-logo"
 import { authClient } from "@/lib/auth-client"
 import { NotificationBell } from "@/components/notifications/notification-bell"
 
@@ -24,21 +25,9 @@ export function TopNav({ businessName, searchQuery = "", onSearchChange }: TopNa
   return (
     <header className="glass sticky top-0 z-30 border-b border-border">
       <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 md:gap-6 md:px-8">
-        {/* Logo */}
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gold text-gold-foreground">
-            <span className="text-lg font-bold tracking-tight">A</span>
-          </div>
-          <div className="hidden flex-col leading-none sm:flex">
-            <span className="text-lg font-bold tracking-[0.2em] text-foreground">AXIS</span>
-            <span className="text-[10px] font-medium tracking-[0.15em] text-muted-foreground">
-              CLAIMS MANAGEMENT
-            </span>
-          </div>
-        </div>
+        <EnsuraLogo compact tone="dark" />
 
-        {/* Search */}
-        <div className="relative flex-1 max-w-md">
+        <div className="relative max-w-md flex-1">
           <Search className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <input
             type="search"
@@ -50,7 +39,6 @@ export function TopNav({ businessName, searchQuery = "", onSearchChange }: TopNa
           />
         </div>
 
-        {/* Actions — partner view is read-only, so no create/edit controls */}
         <div className="flex items-center gap-2">
           <NotificationBell />
           <div className="hidden items-center gap-2 rounded-lg border border-border bg-secondary/60 px-3 py-1.5 sm:flex">
