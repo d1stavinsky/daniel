@@ -1,8 +1,15 @@
 # Automatic HTTPS via Let's Encrypt (HTTP-01 on :80, TLS on :443).
-# Requires DNS A/AAAA for ensura.co.il (+ www) pointing at this host.
+# Requires DNS A records for ensura.co.il AND www.ensura.co.il → VPS public IP.
+#
+# HTTP/3 (QUIC/UDP:443) is intentionally disabled: some Israeli cellular carriers
+# and public Wi‑Fi middleboxes break QUIC while TCP HTTPS works — which looks like
+# “works on desktop, fails on phone”.
 
 {
 	email {$ACME_EMAIL:admin@ensura.co.il}
+	servers {
+		protocols h1 h2
+	}
 }
 
 www.ensura.co.il {
@@ -17,6 +24,8 @@ ensura.co.il {
 		X-Content-Type-Options nosniff
 		Referrer-Policy strict-origin-when-cross-origin
 		-Server
+		# Ensure browsers do not keep an old HTTP/3 Alt-Svc hint
+		-Alt-Svc
 	}
 
 	reverse_proxy app:3000 {

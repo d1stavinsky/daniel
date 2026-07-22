@@ -6,23 +6,68 @@ and reverse-proxies to the app on the internal Docker network.
 ## Architecture
 
 ```text
-Internet → :80/:443 (Caddy) → app:3000 (Next.js)
+Internet → :80/:443 TCP (Caddy) → app:3000 (Next.js)
                 ↑
          auto HTTPS + HTTP→HTTPS redirect
+         HTTP/1.1 + HTTP/2 only (HTTP/3 disabled for mobile carrier compatibility)
 ```
 
-## First deployment
+## Mobile / external network access
 
-1. Point DNS `A` (and optional `AAAA`) for `ensura.co.il` and `www.ensura.co.il` to the VPS.
-2. Install Docker Engine and the Docker Compose plugin.
-3. Open firewall ports used by ACME + HTTPS:
+If the site works on your office desktop but fails on cellular or external Wi‑Fi, run this order:
+
+### 1) DNS (most common)
+
+`ensura.co.il` must resolve to the VPS. **`www.ensura.co.il` must also have an A record** (same IP). As of deployment checks, missing `www` causes phones that open `www.…` to fail while desktops using the apex still work.
+
+At your DNS provider (box.co.il):
+
+| Host | Type | Value |
+| --- | --- | --- |
+| `@` / `ensura.co.il` | A | `185.241.4.184` |
+| `www` | A | `185.241.4.184` |
+
+Do **not** publish an `AAAA` record unless the VPS has working public IPv6 end-to-end.
+
+Verify from any network:
+
+```bash
+dig +short ensura.co.il A @8.8.8.8
+dig +short www.ensura.co.il A @8.8.8.8
+```
+
+### 2) Firewall / security group
+
+On the VPS:
 
 ```bash
 ufw allow OpenSSH
 ufw allow 80/tcp
 ufw allow 443/tcp
-ufw enable
+ufw reload
+ufw status verbose
+ss -tulpn | grep -E ':80|:443'
 ```
+
+Also open **TCP 80/443** in the CloudWebManage / hosting panel firewall if one exists (host UFW alone is not enough when the provider filters upstream).
+
+### 3) Docker bind (must not be localhost-only)
+
+Caddy publishes `0.0.0.0:80` and `0.0.0.0:443`. The Next.js app listens on `HOSTNAME=0.0.0.0` port `3000` inside the Docker network only.
+
+```bash
+cd /root/axis-app
+bash scripts/diagnose-public-access.sh
+docker compose --env-file .env.production logs --tail=80 caddy
+```
+
+### 4) Phone-side checks
+
+1. Open exactly `https://ensura.co.il` (not `http://`, not the bare IP).
+2. Try mobile data and a different Wi‑Fi.
+3. Clear Safari/Chrome site data if an old HTTP/3 (`h3`) attempt was cached.
+4. Confirm DNS on the phone (Settings → Wi‑Fi → DNS) is not a broken captive resolver.
+
 
 4. Clone and configure:
 

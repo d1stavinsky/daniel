@@ -39,9 +39,9 @@ services:
     container_name: ensura-caddy
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
+      # Bind explicitly to all interfaces (not loopback-only).
+      - "0.0.0.0:80:80"
+      - "0.0.0.0:443:443"
     environment:
       ACME_EMAIL: ${ACME_EMAIL:-admin@ensura.co.il}
     volumes:
