@@ -13,7 +13,9 @@ FROM base AS builder
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 ARG NEXT_PUBLIC_APP_URL
+ARG BETTER_AUTH_SECRET
 ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
+ENV BETTER_AUTH_SECRET=$BETTER_AUTH_SECRET
 RUN npm run build
 
 FROM node:22-alpine AS runner
