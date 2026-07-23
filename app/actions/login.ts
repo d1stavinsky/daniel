@@ -7,13 +7,31 @@ import { APIError } from "better-auth/api"
 import { db } from "@/lib/db"
 import { partner, user } from "@/lib/db/schema"
 import { auth } from "@/lib/auth"
+import {
+  clearFailedLoginAttempts,
+  GENERIC_CREDENTIALS_MESSAGE,
+  getLockoutByEmail,
+  isAccountLocked,
+  LOCKOUT_USER_MESSAGE,
+  recordFailedLoginAttempt,
+} from "@/lib/auth/lockout"
 
 export type LoginState = { error: string | null }
+
+function isLockoutError(err: unknown): boolean {
+  if (err instanceof APIError) {
+    const code = (err.body as { code?: string } | undefined)?.code
+    if (code === "ACCOUNT_LOCKED") return true
+    if (err.message?.includes("נחסם")) return true
+  }
+  if (err instanceof Error && err.message.includes("ACCOUNT_LOCKED")) return true
+  return false
+}
 
 /**
  * Signs a user in server-side (progressive enhancement) and routes them to the
  * correct surface based on their role: admins to /admin, partners to /dashboard.
- * The nextCookies() plugin on the auth server writes the session cookie.
+ * Tracks failed attempts and enforces account lockout after the threshold.
  */
 export async function loginAction(_prev: LoginState, formData: FormData): Promise<LoginState> {
   const email = String(formData.get("email") ?? "")
@@ -25,20 +43,32 @@ export async function loginAction(_prev: LoginState, formData: FormData): Promis
     return { error: 'יש להזין דוא"ל וסיסמה.' }
   }
 
+  const lockout = await getLockoutByEmail(email)
+  if (isAccountLocked(lockout)) {
+    return { error: LOCKOUT_USER_MESSAGE }
+  }
+
   try {
     await auth.api.signInEmail({
       body: { email, password },
       headers: await headers(),
     })
   } catch (err) {
+    if (isLockoutError(err)) {
+      return { error: LOCKOUT_USER_MESSAGE }
+    }
+
     if (err instanceof APIError) {
-      return { error: "פרטי ההתחברות שגויים. נסו שוב." }
+      const result = await recordFailedLoginAttempt(email)
+      if (result.locked) {
+        return { error: LOCKOUT_USER_MESSAGE }
+      }
+      return { error: GENERIC_CREDENTIALS_MESSAGE }
     }
 
     const message = err instanceof Error ? err.message : String(err)
     console.error("[loginAction] sign-in failed:", message)
 
-    // Better Auth sometimes throws plain Errors for CSRF / origin / config issues.
     const lower = message.toLowerCase()
     if (
       lower.includes("invalid origin") ||
@@ -51,10 +81,26 @@ export async function loginAction(_prev: LoginState, formData: FormData): Promis
       }
     }
     if (lower.includes("password") || lower.includes("credential") || lower.includes("user not found")) {
-      return { error: "פרטי ההתחברות שגויים. נסו שוב." }
+      const result = await recordFailedLoginAttempt(email)
+      if (result.locked) {
+        return { error: LOCKOUT_USER_MESSAGE }
+      }
+      return { error: GENERIC_CREDENTIALS_MESSAGE }
     }
 
     return { error: "אירעה שגיאה בעת ההתחברות. נסו שוב מאוחר יותר." }
+  }
+
+  // Successful auth — reset brute-force counters.
+  if (lockout?.id) {
+    await clearFailedLoginAttempts(lockout.id)
+  } else {
+    const [row] = await db
+      .select({ id: user.id })
+      .from(user)
+      .where(eq(user.email, email))
+      .limit(1)
+    if (row) await clearFailedLoginAttempts(row.id)
   }
 
   // Route by role (redirect throws, so it must be outside the try/catch).

@@ -5,6 +5,8 @@ import { pool } from "@/lib/db"
 import { db } from "@/lib/db"
 import { user } from "@/lib/db/schema"
 import { sendAlertEmail } from "@/lib/email"
+import { accountLockoutPlugin } from "@/lib/auth/account-lockout-plugin"
+import { clearFailedLoginAttempts } from "@/lib/auth/lockout"
 
 function appBaseUrl(): string {
   return (
@@ -84,6 +86,8 @@ export const auth = betterAuth({
         .update(user)
         .set({ mustResetPassword: false, updatedAt: new Date() })
         .where(eq(user.id, resetUser.id))
+      // Successful password reset also clears lockout / failed attempts.
+      await clearFailedLoginAttempts(resetUser.id)
     },
   },
   user: {
@@ -114,6 +118,17 @@ export const auth = betterAuth({
         required: false,
         input: false,
       },
+      failedLoginAttempts: {
+        type: "number",
+        required: false,
+        defaultValue: 0,
+        input: false,
+      },
+      lockedAt: {
+        type: "date",
+        required: false,
+        input: false,
+      },
     },
   },
   trustedOrigins: trustedOrigins(),
@@ -123,7 +138,7 @@ export const auth = betterAuth({
   },
   // nextCookies() MUST be last: it relays any cookies Better Auth sets during
   // a server action into Next's cookie store automatically.
-  plugins: [nextCookies()],
+  plugins: [accountLockoutPlugin(), nextCookies()],
   advanced: {
     useSecureCookies: appBaseUrl().startsWith("https://"),
     defaultCookieAttributes: {

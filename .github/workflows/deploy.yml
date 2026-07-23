@@ -121,6 +121,20 @@ jobs:
             docker compose --env-file .env.production up -d --build --remove-orphans --force-recreate
             docker compose ps
 
+            echo "== apply account lockout migration =="
+            docker compose --env-file .env.production exec -T app node -e '
+              const { Pool } = require("pg");
+              const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+              const sql = `
+                ALTER TABLE "user" ADD COLUMN IF NOT EXISTS "failedLoginAttempts" integer NOT NULL DEFAULT 0;
+                ALTER TABLE "user" ADD COLUMN IF NOT EXISTS "lockedAt" timestamp;
+                CREATE INDEX IF NOT EXISTS user_locked_at_idx ON "user" ("lockedAt") WHERE "lockedAt" IS NOT NULL;
+              `;
+              pool.query(sql)
+                .then(() => { console.log("account_lockout_migration=ok"); return pool.end(); })
+                .catch((e) => { console.error("account_lockout_migration_failed", e.message); process.exit(1); });
+            '
+
             echo "== container env check =="
             docker compose --env-file .env.production exec -T app node -e '
               const db = process.env.DATABASE_URL || "";

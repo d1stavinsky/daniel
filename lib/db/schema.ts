@@ -20,6 +20,10 @@ export const user = pgTable("user", {
   mustResetPassword: boolean("mustResetPassword").notNull().default(false),
   // Sub-user role within a partner org: "owner" (created by admin) or "member".
   partnerRole: text("partnerRole"),
+  // Brute-force protection: consecutive failed password attempts.
+  failedLoginAttempts: integer("failedLoginAttempts").notNull().default(0),
+  // When set, credential sign-in is blocked until an admin unlocks the account.
+  lockedAt: timestamp("lockedAt"),
   createdAt: timestamp("createdAt").notNull().defaultNow(),
   updatedAt: timestamp("updatedAt").notNull().defaultNow(),
 })

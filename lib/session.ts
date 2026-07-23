@@ -2,8 +2,9 @@ import { headers } from "next/headers"
 import { eq } from "drizzle-orm"
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { partner } from "@/lib/db/schema"
+import { partner, user } from "@/lib/db/schema"
 import { normalizeRole, type AppRole } from "@/lib/rbac"
+import { isAccountLocked } from "@/lib/auth/lockout"
 
 export type SessionUser = {
   id: string
@@ -30,6 +31,21 @@ export async function getSessionUser(): Promise<SessionUser | null> {
     }
     const role = normalizeRole(u.role)
     const partnerId = u.partnerId ?? null
+
+    // Locked accounts must not keep using an existing session cookie.
+    const [lockRow] = await db
+      .select({ lockedAt: user.lockedAt })
+      .from(user)
+      .where(eq(user.id, u.id))
+      .limit(1)
+    if (isAccountLocked(lockRow)) {
+      try {
+        await auth.api.signOut({ headers: await headers() })
+      } catch {
+        // Best-effort.
+      }
+      return null
+    }
 
     if (role === "partner") {
       if (!partnerId) return null

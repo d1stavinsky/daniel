@@ -55,7 +55,15 @@ export async function completePasswordReset(
   try {
     await db.transaction(async (tx) => {
       await tx.update(account).set({ password: hashed, updatedAt: now }).where(eq(account.id, cred.id))
-      await tx.update(user).set({ mustResetPassword: false, updatedAt: now }).where(eq(user.id, sessionUser.id))
+      await tx
+        .update(user)
+        .set({
+          mustResetPassword: false,
+          failedLoginAttempts: 0,
+          lockedAt: null,
+          updatedAt: now,
+        })
+        .where(eq(user.id, sessionUser.id))
     })
   } catch (err) {
     console.error("[completePasswordReset] failed:", err)
