@@ -12,6 +12,7 @@ export function EnsuraAuthShell({
 }) {
   return (
     <main
+      id="main-content"
       className="ensura-landing relative flex min-h-svh items-start justify-center overflow-x-clip px-4 py-8 sm:items-center sm:py-12"
       style={{
         paddingTop: "max(2rem, env(safe-area-inset-top))",

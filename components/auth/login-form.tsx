@@ -6,6 +6,7 @@ import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { Loader2, Lock, Mail } from "lucide-react"
 import { loginAction, type LoginState } from "@/app/actions/login"
+import { FormPrivacyNotice } from "@/components/legal/form-notices"
 
 function SubmitButton() {
   const { pending } = useFormStatus()
@@ -106,6 +107,8 @@ export function LoginForm() {
 
           <SubmitButton />
 
+          <FormPrivacyNotice compact className="text-center" />
+
           <Link
             href="/forgot-password"
             className="mx-auto inline-flex min-h-11 items-center text-sm text-ensura-navy/55 underline-offset-4 transition-colors hover:text-ensura-teal hover:underline touch-manipulation"
@@ -117,6 +120,19 @@ export function LoginForm() {
 
       <p className="mt-6 px-2 text-center text-xs leading-relaxed text-ensura-navy/45">
         גישה מאובטחת · אינשורה | ENSURA · לשימוש שותפים מורשים בלבד
+        <span className="mt-2 block">
+          <Link href="/privacy" className="text-ensura-teal hover:underline">
+            פרטיות
+          </Link>
+          {" · "}
+          <Link href="/terms" className="text-ensura-teal hover:underline">
+            תנאים
+          </Link>
+          {" · "}
+          <Link href="/accessibility" className="text-ensura-teal hover:underline">
+            נגישות
+          </Link>
+        </span>
       </p>
     </div>
   )

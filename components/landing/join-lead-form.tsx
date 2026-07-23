@@ -14,6 +14,11 @@ import {
   Users,
 } from "lucide-react"
 import { submitJoinLeadAction, type JoinLeadState } from "@/app/actions/join-lead"
+import {
+  AntiSpamNotice,
+  FormPrivacyNotice,
+  MarketingConsentCheckbox,
+} from "@/components/legal/form-notices"
 import { cn } from "@/lib/utils"
 
 function SubmitButton() {
@@ -233,6 +238,12 @@ export function JoinLeadForm({
               {state.error}
             </p>
           )}
+
+          <div className="sm:col-span-2 space-y-3 border-t border-ensura-navy/8 pt-4">
+            <MarketingConsentCheckbox />
+            <FormPrivacyNotice compact />
+            <AntiSpamNotice compact />
+          </div>
 
           <div className="sm:col-span-2">
             <SubmitButton />

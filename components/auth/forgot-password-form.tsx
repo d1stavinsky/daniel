@@ -5,6 +5,7 @@ import { useFormStatus } from "react-dom"
 import Link from "next/link"
 import { Loader2, Mail, ArrowRight } from "lucide-react"
 import { requestPasswordResetAction, type ForgotPasswordState } from "@/app/actions/forgot-password"
+import { FormPrivacyNotice } from "@/components/legal/form-notices"
 
 function SubmitButton() {
   const { pending } = useFormStatus()
@@ -87,6 +88,8 @@ export function ForgotPasswordForm() {
             )}
 
             <SubmitButton />
+
+            <FormPrivacyNotice compact className="text-center" />
 
             <Link
               href="/login"

@@ -78,10 +78,11 @@ export async function submitJoinLeadAction(
   }
 
   const lead = parsed.data
+  const marketingConsent = formData.get("marketingConsent") === "yes"
   const inbox = leadsInbox()
 
   console.log(
-    `NEW JOIN LEAD: ${lead.fullName} · ${lead.businessName} · ${lead.email} · ${lead.phone} · ${partnerTypeLabels[lead.partnerType]}`,
+    `NEW JOIN LEAD: ${lead.fullName} · ${lead.businessName} · ${lead.email} · ${lead.phone} · ${partnerTypeLabels[lead.partnerType]} · marketing=${marketingConsent}`,
   )
 
   if (!inbox) {
@@ -100,6 +101,7 @@ export async function submitJoinLeadAction(
       `טלפון: ${lead.phone}`,
       `דוא״ל: ${lead.email}`,
       lead.message ? `הודעה: ${lead.message}` : "הודעה: —",
+      `הסכמה לדיוור שיווקי (ס׳ 30א): ${marketingConsent ? "כן" : "לא"}`,
     ],
   })
 

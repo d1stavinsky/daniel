@@ -10,7 +10,7 @@ export default function LandingPage() {
   return (
     <div className="ensura-landing min-h-screen">
       <SiteHeader />
-      <main>
+      <main id="main-content">
         <Hero />
         <HowItWorks />
         <Audience />
